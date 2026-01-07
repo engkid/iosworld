@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		42C6074B2F0E4E860072945E /* NetworkService in Frameworks */ = {isa = PBXBuildFile; productRef = 42C6074A2F0E4E860072945E /* NetworkService */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		42C607242F0DE5B70072945E /* iOSWorld.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSWorld.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		42C607472F0E4E5B0072945E /* NetworkService */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = NetworkService; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -23,6 +28,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42C6074B2F0E4E860072945E /* NetworkService in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -32,7 +38,9 @@
 		42C6071B2F0DE5B70072945E = {
 			isa = PBXGroup;
 			children = (
+				42C607472F0E4E5B0072945E /* NetworkService */,
 				42C607262F0DE5B70072945E /* iOSWorld */,
+				42C607492F0E4E860072945E /* Frameworks */,
 				42C607252F0DE5B70072945E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -43,6 +51,13 @@
 				42C607242F0DE5B70072945E /* iOSWorld.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		42C607492F0E4E860072945E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -65,6 +80,7 @@
 			);
 			name = iOSWorld;
 			packageProductDependencies = (
+				42C6074A2F0E4E860072945E /* NetworkService */,
 			);
 			productName = iOSWorld;
 			productReference = 42C607242F0DE5B70072945E /* iOSWorld.app */;
@@ -353,6 +369,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		42C6074A2F0E4E860072945E /* NetworkService */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = NetworkService;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 42C6071C2F0DE5B70072945E /* Project object */;
 }
