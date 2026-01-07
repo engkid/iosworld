@@ -7,7 +7,11 @@
 
 import Foundation
 
-public final class CacheLayer {
+public protocol CacheLayerInterface {
+  func cache<T: Codable>(for key: String, value: T)
+}
+
+public final class CacheLayer: CacheLayerInterface {
   
   public init() {}
   

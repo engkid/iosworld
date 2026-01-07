@@ -7,7 +7,11 @@
 
 import Foundation
 
-public final class NetworkLayer {
+public protocol NetworkLayerInterface {
+  func callNetwork()
+}
+
+public final class NetworkLayer: NetworkLayerInterface {
   
   public init() {}
   
