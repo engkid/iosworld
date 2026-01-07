@@ -10,10 +10,8 @@ import NetworkService
 
 final class HomeViewModel: ObservableObject {
   
-  private let networkLayer: NetworkLayer
-  
-  init(networkLayer: NetworkLayer) {
-    self.networkLayer = networkLayer
+  func callNetwork() {
+    
   }
   
 }
