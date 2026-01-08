@@ -109,7 +109,7 @@ struct ContentView: View {
       }
     }
     .onAppear(perform: {
-      viewModel.callNetwork()
+      viewModel.getPokemonList()
     })
     .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search products")
   }

@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct DomainConfiguration {
+public struct DomainConfiguration {
   
-  static let baseURL: String = "https://jsonplaceholder.typicode.com"
+  public static let baseURL: String = "https://pokeapi.co/api/v2"
   
 }
