@@ -21,6 +21,6 @@ final class HomeRemoteDataSource: HomeRemoteDataSourceInterface {
   }
   
   func getPokemonList() {
-    self.networkLayer.callNetwork()
+    
   }
 }

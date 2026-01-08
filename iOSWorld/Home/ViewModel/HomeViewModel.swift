@@ -11,7 +11,11 @@ import NetworkService
 final class HomeViewModel: ObservableObject {
   
   func callNetwork() {
-    
+    Task {
+      let pokemons = await PokemonExampleRunner.runExample()
+      print("fetched pokemons \(pokemons)")
+      
+    }
   }
   
 }

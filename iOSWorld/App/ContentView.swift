@@ -68,6 +68,8 @@ final class ProfileViewController: UIViewController {
 
 struct ContentView: View {
   
+  @StateObject private var viewModel = HomeViewModel()
+  
   @State private var query = ""
   private let items = ["iPhone", "iPad", "Mac", "Watch", "AirPods"]
   
@@ -106,6 +108,9 @@ struct ContentView: View {
         }
       }
     }
+    .onAppear(perform: {
+      viewModel.callNetwork()
+    })
     .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search products")
   }
 }
@@ -113,3 +118,4 @@ struct ContentView: View {
 #Preview {
     ContentView(navigator: HomeNavigator())
 }
+
