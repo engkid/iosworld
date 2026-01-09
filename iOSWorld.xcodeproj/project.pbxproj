@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		423D88782F101D3500B85398 /* Factory in Frameworks */ = {isa = PBXBuildFile; productRef = 423D88772F101D3500B85398 /* Factory */; };
+		423D887A2F101D3500B85398 /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = 423D88792F101D3500B85398 /* FactoryKit */; };
 		42C6074B2F0E4E860072945E /* NetworkService in Frameworks */ = {isa = PBXBuildFile; productRef = 42C6074A2F0E4E860072945E /* NetworkService */; };
 /* End PBXBuildFile section */
 
@@ -28,7 +30,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				423D887A2F101D3500B85398 /* FactoryKit in Frameworks */,
 				42C6074B2F0E4E860072945E /* NetworkService in Frameworks */,
+				423D88782F101D3500B85398 /* Factory in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +85,8 @@
 			name = iOSWorld;
 			packageProductDependencies = (
 				42C6074A2F0E4E860072945E /* NetworkService */,
+				423D88772F101D3500B85398 /* Factory */,
+				423D88792F101D3500B85398 /* FactoryKit */,
 			);
 			productName = iOSWorld;
 			productReference = 42C607242F0DE5B70072945E /* iOSWorld.app */;
@@ -110,6 +116,9 @@
 			);
 			mainGroup = 42C6071B2F0DE5B70072945E;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				423D88762F101D3500B85398 /* XCRemoteSwiftPackageReference "Factory" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 42C607252F0DE5B70072945E /* Products */;
 			projectDirPath = "";
@@ -370,7 +379,28 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		423D88762F101D3500B85398 /* XCRemoteSwiftPackageReference "Factory" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hmlongco/Factory.git";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 2.5.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		423D88772F101D3500B85398 /* Factory */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 423D88762F101D3500B85398 /* XCRemoteSwiftPackageReference "Factory" */;
+			productName = Factory;
+		};
+		423D88792F101D3500B85398 /* FactoryKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 423D88762F101D3500B85398 /* XCRemoteSwiftPackageReference "Factory" */;
+			productName = FactoryKit;
+		};
 		42C6074A2F0E4E860072945E /* NetworkService */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = NetworkService;

@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct PokemonListResponse: Decodable, Sendable {
+struct PokemonListResponse: Decodable, Sendable, Equatable {
   
-  struct Result: Decodable, Sendable {
+  struct Result: Decodable, Sendable, Equatable {
     let name: String
     let url: String
   }

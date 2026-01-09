@@ -55,38 +55,8 @@ public final class NetworkLayer: NetworkLayerInterface {
   }
 }
 
-// Example request types for demonstration/testing. Consider moving these to a sample or test target.
-
-struct GetPokemonName: APIRequest {
-  let name: String
-  let baseURL: URL = URL(string: DomainConfiguration.baseURL)!
-  let path: String = PokemonAPI(route: .pokemon).path
-  let method: HTTPMethod = .get
-  let queryItems: [URLQueryItem]? = nil
-  var body: Body { .json(PokemonPayload(name: name)) }
-}
-
-struct PokemonPayload: Encodable {
-  let name: String
-}
-
 enum EndpointPath {
   case pokemon
   case ability
   case nature
-}
-
-struct PokemonAPI {
-  let route: EndpointPath
-  
-  var path: String {
-    switch route {
-    case .pokemon:
-      return "/pokemon"
-    case .ability:
-      return "/ability"
-    case .nature:
-      return "/nature"
-    }
-  }
 }

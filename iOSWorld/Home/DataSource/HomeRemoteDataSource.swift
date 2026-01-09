@@ -9,7 +9,7 @@ import Foundation
 import NetworkService
 
 protocol HomeRemoteDataSourceInterface {
-  func getPokemonList(name: String) async -> [Pokemon]
+  func getPokemonList(name: String) async -> [PokemonDomainModel]
 }
 
 final class HomeRemoteDataSource: HomeRemoteDataSourceInterface {
@@ -20,11 +20,11 @@ final class HomeRemoteDataSource: HomeRemoteDataSourceInterface {
     self.networkLayer = networkLayer
   }
   
-  func getPokemonList(name: String) async -> [Pokemon] {
-    let request = GetPokemonRequest(name: name)
+  func getPokemonList(name: String) async -> [PokemonDomainModel] {
+    let request = PokemonAPI.getPokemonList
     do {
       let response = try await networkLayer.send(request, decode: PokemonListResponse.self)
-      let pokemons = response.results.map { Pokemon(name: $0.name, url: $0.url) }
+      let pokemons = response.results.map { PokemonDomainModel(name: $0.name, url: $0.url) }
       return pokemons
     } catch {
       print("Failed to fetch Pokemon list \(error)")
