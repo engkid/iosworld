@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		42231E262F12D67C00166B41 /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = 42231E252F12D67C00166B41 /* Home */; };
 		423D88782F101D3500B85398 /* Factory in Frameworks */ = {isa = PBXBuildFile; productRef = 423D88772F101D3500B85398 /* Factory */; };
 		423D887A2F101D3500B85398 /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = 423D88792F101D3500B85398 /* FactoryKit */; };
 		42C6074B2F0E4E860072945E /* NetworkService in Frameworks */ = {isa = PBXBuildFile; productRef = 42C6074A2F0E4E860072945E /* NetworkService */; };
@@ -32,6 +33,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				423D887A2F101D3500B85398 /* FactoryKit in Frameworks */,
+				42231E262F12D67C00166B41 /* Home in Frameworks */,
 				42C6074B2F0E4E860072945E /* NetworkService in Frameworks */,
 				423D88782F101D3500B85398 /* Factory in Frameworks */,
 			);
@@ -89,6 +91,7 @@
 				42C6074A2F0E4E860072945E /* NetworkService */,
 				423D88772F101D3500B85398 /* Factory */,
 				423D88792F101D3500B85398 /* FactoryKit */,
+				42231E252F12D67C00166B41 /* Home */,
 			);
 			productName = iOSWorld;
 			productReference = 42C607242F0DE5B70072945E /* iOSWorld.app */;
@@ -393,6 +396,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		42231E252F12D67C00166B41 /* Home */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Home;
+		};
 		423D88772F101D3500B85398 /* Factory */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 423D88762F101D3500B85398 /* XCRemoteSwiftPackageReference "Factory" */;

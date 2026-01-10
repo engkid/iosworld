@@ -16,7 +16,8 @@ let package = Package(
         ),
     ],
     dependencies: [
-      .package(path: "../NetworkService")
+      .package(path: "../NetworkService"),
+      .package(url: "https://github.com/hmlongco/Factory", from: "2.5.3")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -24,7 +25,8 @@ let package = Package(
         .target(
             name: "Home",
             dependencies: [
-              .product(name: "NetworkService", package: "NetworkService")
+              .product(name: "NetworkService", package: "NetworkService"),
+              .product(name: "Factory", package: "Factory")
             ]
         ),
 

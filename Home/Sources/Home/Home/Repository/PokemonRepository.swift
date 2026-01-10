@@ -36,16 +36,18 @@ public enum PokemonRepositoryError: Error, Sendable {
 }
 
 // MARK: - Abstractions
-public protocol PokemonRepositoryInterface: Sendable {
+public protocol PokemonRepositoryInterface {
   func getPokemonList(limit: Int?, offset: Int?) async -> Result<[PokemonDomainModel], PokemonRepositoryError>
 }
 
-protocol PokemonRemoteDataSourceInterface: Sendable {
+protocol PokemonRemoteDataSourceInterface {
   func fetchPokemonList(limit: Int?, offset: Int?) async throws -> PokemonListResponse
 }
 
 // MARK: - Remote Data Source
-struct PokemonRemoteDataSource: PokemonRemoteDataSourceInterface {
+final class PokemonRemoteDataSource: PokemonRemoteDataSourceInterface {
+  // NOTE: Marked as @unchecked Sendable because NetworkLayerInterface (existential) is not Sendable.
+  // Ensure that any NetworkLayerInterface implementation used here is thread-safe across concurrency domains.
   private let networkLayer: NetworkLayerInterface
 
   init(networkLayer: NetworkLayerInterface = NetworkLayer()) {
@@ -59,7 +61,7 @@ struct PokemonRemoteDataSource: PokemonRemoteDataSourceInterface {
 }
 
 // MARK: - Repository
-struct PokemonRepository: PokemonRepositoryInterface {
+final class PokemonRepository: PokemonRepositoryInterface {
   private let remoteDataSource: PokemonRemoteDataSourceInterface
 
   init(remoteDataSource: PokemonRemoteDataSourceInterface = PokemonRemoteDataSource()) {

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Home
 
 enum NavigationMethod {
   case push
@@ -109,7 +110,9 @@ struct ContentView: View {
       }
     }
     .onAppear(perform: {
-      viewModel.getPokemonList()
+      Task {
+        await viewModel.getPokemonList()
+      }
     })
     .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search products")
   }

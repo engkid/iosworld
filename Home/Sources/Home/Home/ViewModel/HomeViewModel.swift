@@ -9,25 +9,25 @@ import Factory
 import Combine
 import NetworkService
 
-final class HomeViewModel: ObservableObject {
+public final class HomeViewModel: ObservableObject {
   
   @Injected(\.getPokemonListUseCase) private var getPokemonUseCase: GetPokemonUseCaseInterface
+  @Published public private(set) var pokemons: [PokemonDomainModel] = []
   
-  func getPokemonList() {
-    
-    Task {
-      let pokemonList = await getPokemonUseCase.execute()
-      print("fetched pokemons \(pokemonList)")
-      
-    }
+  public init() {}
+  
+  public func getPokemonList() async {
+    // Capture the injected dependency locally to avoid sending a non-Sendable property across an await.
+    let useCase = getPokemonUseCase
+    let result = await useCase.execute()
+    // Assuming execute() returns [Pokemon]; adjust mapping if it returns a wrapper/result type
+    self.pokemons = result
   }
   
-  func callNetwork() {
-    Task {
-      let pokemons = await PokemonExampleRunner.runExample()
-      print("fetched pokemons \(pokemons)")
-      
-    }
+  public func callNetwork() async {
+    let fetched = await PokemonExampleRunner.runExample()
+    self.pokemons = fetched
+    print("fetched pokemons \(fetched)")
   }
   
 }
