@@ -6,12 +6,26 @@
 //
 
 import SwiftUI
+import Home
+import UIKit
 
 @main
 struct iOSWorldApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
     var body: some Scene {
         WindowGroup {
-            ContentView(navigator: HomeNavigator())
+            TabView {
+                ContentView(navigator: HomeNavigator())
+                    .tabItem {
+                        Label("Main", systemImage: "square.grid.2x2")
+                    }
+
+                HomeView()
+                    .tabItem {
+                        Label("Home", systemImage: "house")
+                    }
+            }
         }
     }
 }

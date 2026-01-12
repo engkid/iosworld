@@ -109,11 +109,6 @@ struct ContentView: View {
         }
       }
     }
-    .onAppear(perform: {
-      Task {
-        await viewModel.getPokemonList()
-      }
-    })
     .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search products")
   }
 }
