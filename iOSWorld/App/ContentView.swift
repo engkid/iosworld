@@ -109,7 +109,9 @@ struct ContentView: View {
         }
       }
     }
-    .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search products")
+    .searchableOnAppear($query, prompt: "Search products", placement: .navigationBarDrawer(displayMode: .always)) { queryChanged in
+      print("query \(queryChanged)")
+    }
   }
 }
 

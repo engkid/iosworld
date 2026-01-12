@@ -2,6 +2,7 @@ import SwiftUI
 
 public struct HomeView: View {
   @StateObject private var viewModel = HomeViewModel()
+  @State private var query: String = ""
   
   public init() {}
   
@@ -72,6 +73,7 @@ public struct HomeView: View {
       .refreshable {
         await viewModel.getPokemonList()
       }
+      .searchableOnAppear($query, prompt: "Search pokemon", placement: .navigationBarDrawer(displayMode: .always))
       // MARK: Navigation example using SwiftUI Navigation Stack
       .navigationDestination(for: PokemonPath.self) { route in
         switch route {
