@@ -1,3 +1,10 @@
+//
+//  TnCTextView.swift
+//  Home
+//
+//  Created by Engkit Riswara on 15/01/26.
+//
+
 import SwiftUI
 
 struct TnCTextView: View {
