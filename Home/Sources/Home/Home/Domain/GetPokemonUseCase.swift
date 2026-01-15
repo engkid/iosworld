@@ -8,7 +8,7 @@
 import Foundation
 
 protocol GetPokemonUseCaseInterface {
-  func execute() async -> [PokemonDomainModel]
+  func execute() async -> [Pokemon]
 }
 
 final class GetPokemonUseCase: GetPokemonUseCaseInterface {
@@ -19,7 +19,7 @@ final class GetPokemonUseCase: GetPokemonUseCaseInterface {
     self.repository = repository
   }
   
-  func execute() async -> [PokemonDomainModel] {
+  func execute() async -> [Pokemon] {
     let result = await repository.getPokemonList(limit: 20, offset: 0)
     switch result {
     case .success(let list):

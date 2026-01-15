@@ -14,7 +14,7 @@ import Foundation
 public final class HomeViewModel: ObservableObject {
   
   // MARK: Published subject
-  @Published public private(set) var pokemons: [PokemonDomainModel] = []
+  @Published public private(set) var pokemons: [Pokemon] = []
   @Published public private(set) var isLoading: Bool = false
   @Published public private(set) var errorMessage: String?
   
@@ -48,10 +48,10 @@ public final class HomeViewModel: ObservableObject {
   }
   
   // Combine publisher that bridges the async use case to Combine
-  private func pokemonListPublisher() -> AnyPublisher<[PokemonDomainModel], Error> {
+  private func pokemonListPublisher() -> AnyPublisher<[Pokemon], Error> {
     // Capture the injected dependency locally to avoid sending a non-Sendable property across an await.
     let useCase = getPokemonUseCase
-    return Future<[PokemonDomainModel], Error> { promise in
+    return Future<[Pokemon], Error> { promise in
       Task {
         let result = await useCase.execute()
         promise(.success(result))
@@ -79,8 +79,8 @@ public final class HomeViewModel: ObservableObject {
       .store(in: &cancellables)
   }
   
-  private func networkExamplePublisher() -> AnyPublisher<[PokemonDomainModel], Error> {
-    Future<[PokemonDomainModel], Error> { promise in
+  private func networkExamplePublisher() -> AnyPublisher<[Pokemon], Error> {
+    Future<[Pokemon], Error> { promise in
       Task {
         let fetched = await PokemonExampleRunner.runExample()
         promise(.success(fetched))

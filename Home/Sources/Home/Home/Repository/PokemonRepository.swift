@@ -2,7 +2,7 @@ import Foundation
 import NetworkService
 
 // MARK: - Domain Model
-public struct PokemonDomainModel: Sendable, Equatable {
+public struct Pokemon: Sendable, Equatable {
   public let name: String
   public let url: String
 }
@@ -37,7 +37,7 @@ public enum PokemonRepositoryError: Error, Sendable {
 
 // MARK: - Abstractions
 public protocol PokemonRepositoryInterface {
-  func getPokemonList(limit: Int?, offset: Int?) async -> Result<[PokemonDomainModel], PokemonRepositoryError>
+  func getPokemonList(limit: Int?, offset: Int?) async -> Result<[Pokemon], PokemonRepositoryError>
 }
 
 protocol PokemonRemoteDataSourceInterface {
@@ -68,10 +68,10 @@ final class PokemonRepository: PokemonRepositoryInterface {
     self.remoteDataSource = remoteDataSource
   }
 
-  func getPokemonList(limit: Int? = nil, offset: Int? = nil) async -> Result<[PokemonDomainModel], PokemonRepositoryError> {
+  func getPokemonList(limit: Int? = nil, offset: Int? = nil) async -> Result<[Pokemon], PokemonRepositoryError> {
     do {
       let response = try await remoteDataSource.fetchPokemonList(limit: limit, offset: offset)
-      let models = response.results.map { PokemonDomainModel(name: $0.name, url: $0.url) }
+      let models = response.results.map { Pokemon(name: $0.name, url: $0.url) }
       return .success(models)
     } catch let decoding as DecodingError {
       return .failure(.decoding(decoding))
@@ -83,7 +83,7 @@ final class PokemonRepository: PokemonRepositoryInterface {
 
 // MARK: - Example Runner (manual testing helper)
 public enum PokemonExampleRunner {
-  public static func runExample() async -> [PokemonDomainModel] {
+  public static func runExample() async -> [Pokemon] {
     let repo: PokemonRepositoryInterface = PokemonRepository()
     let result = await repo.getPokemonList(limit: 20, offset: 0)
     switch result {

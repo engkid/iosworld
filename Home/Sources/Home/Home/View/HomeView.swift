@@ -1,8 +1,21 @@
 import SwiftUI
+import Combine
+
+final class SearchState: ObservableObject {
+  @Published var query: String = ""
+}
 
 public struct HomeView: View {
   @StateObject private var viewModel = HomeViewModel()
-  @State private var query: String = ""
+  @StateObject private var search = SearchState()
+  @State private var debouncedQuery: String = ""
+  @State private var cancellables = Set<AnyCancellable>()
+  
+  private var filteredPokemons: [Pokemon] {
+    let activeQuery = debouncedQuery
+    guard !activeQuery.isEmpty else { return viewModel.pokemons }
+    return viewModel.pokemons.filter { $0.name.localizedCaseInsensitiveContains(activeQuery) }
+  }
   
   public init() {}
   
@@ -37,13 +50,16 @@ public struct HomeView: View {
               }
             }
             Section {
-              ForEach(viewModel.pokemons.indices, id: \.self) { index in
-                let pokemon = viewModel.pokemons[index]
+              ForEach(filteredPokemons.indices, id: \.self) { index in
+                let pokemon = filteredPokemons[index]
                 HStack {
                   Text("\(pokemon.name)")
                   Spacer()
                   if viewModel.isLoading { ProgressView().scaleEffect(0.8) }
                 }
+              }
+              if filteredPokemons.isEmpty && !debouncedQuery.isEmpty {
+                ContentUnavailableView("No Results", systemImage: "magnifyingglass", description: Text("No Pokémon match “\(debouncedQuery)”."))
               }
             }
           }
@@ -73,7 +89,26 @@ public struct HomeView: View {
       .refreshable {
         await viewModel.getPokemonList()
       }
-      .searchableOnAppear($query, prompt: "Search pokemon", placement: .navigationBarDrawer(displayMode: .always))
+      .onAppear {
+        // Clear previous subscriptions in case the view reappears
+        cancellables.removeAll()
+        search.$query
+          .removeDuplicates()
+          .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
+          .sink { value in
+            debouncedQuery = value
+          }
+          .store(in: &cancellables)
+      }
+      .searchableOnAppear(
+        $search.query,
+        prompt: "Search pokemon",
+        placement: .navigationBarDrawer(displayMode: .always),
+        onSubmit: { submitted in
+          // Snap immediately on submit
+          debouncedQuery = submitted
+        }
+      )
       // MARK: Navigation example using SwiftUI Navigation Stack
       .navigationDestination(for: PokemonPath.self) { route in
         switch route {
