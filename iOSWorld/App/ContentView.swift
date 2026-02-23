@@ -93,7 +93,8 @@ struct ContentView: View {
   
   var body: some View {
     NavigationStack {
-      VStack {
+      ZStack(alignment: .bottom) {
+        VStack {
         List(filtered, id: \.self) { item in
           Text(item)
         }
@@ -148,9 +149,12 @@ struct ContentView: View {
         
         Text("Name: \(lastThrottledName)").frame(alignment: .leading)
         
-        TnCTextView()
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+
+        iOSWorldTabView()
+          .padding(.bottom, 8)
       }
-      .frame(maxWidth: .infinity, alignment: .leading)
     }
     .searchableOnAppear($query, prompt: "Search products", placement: .navigationBarDrawer(displayMode: .always)) { queryChanged in
       print("query \(queryChanged)")
@@ -161,75 +165,3 @@ struct ContentView: View {
 #Preview {
     ContentView(navigator: HomeNavigator())
 }
-
-
-
-//// MARK: - Demo usage
-//struct CustomTextFieldDemo: View {
-//    @State private var name = ""
-//    @State private var nameError: FieldError?
-//
-//    @State private var age = ""
-//    @State private var ageError: FieldError?
-//
-//    @State private var lastThrottledName = "-"
-//    @State private var lastThrottledAge = "-"
-//
-//    // Example of resigning on tap outside
-//    @FocusState private var focusedField: Field?
-//
-//    enum Field { case name, age }
-//
-//    var body: some View {
-//        VStack(spacing: 18) {
-//          
-//
-//          CustomTextField(
-//                title: "Age (number)",
-//                inputType: .number,
-//                keyboardLabel: .done,
-//                onThrottledChange: { value in
-//                    lastThrottledAge = value
-//                },
-//                text: $age,
-//                error: $ageError
-//            )
-//            .onTapGesture { focusedField = .age }
-//
-//            VStack(alignment: .leading, spacing: 6) {
-//                Text("Throttled callbacks (debounced):")
-//                    .font(.subheadline)
-//                    .foregroundStyle(.secondary)
-//                Text("Name: \(lastThrottledName)")
-//                Text("Age: \(lastThrottledAge)")
-//            }
-//            .frame(maxWidth: .infinity, alignment: .leading)
-//
-//            Button("Validate & Dismiss Keyboard") {
-//                nameError = validateName(name)
-//                ageError = validateAge(age)
-//                // Resign keyboard globally-ish
-//                focusedField = nil
-//            }
-//            .buttonStyle(.borderedProminent)
-//
-//            Spacer()
-//        }
-//        .padding(16)
-//        .contentShape(Rectangle())
-//        .onTapGesture {
-//            // Tap outside: resign first responder
-//            focusedField = nil
-//        }
-//    }
-//
-//    private func validateName(_ value: String) -> FieldError? {
-//        value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? .empty : nil
-//    }
-//
-//    private func validateAge(_ value: String) -> FieldError? {
-//        if value.isEmpty { return .empty }
-//        return value.allSatisfy(\.isNumber) ? nil : .notNumber
-//    }
-//}
-
