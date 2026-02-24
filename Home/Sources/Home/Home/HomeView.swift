@@ -6,13 +6,12 @@
 //
 
 import SwiftUI
-import Factory
 
 public struct HomeView: View {
   @StateObject private var viewModel: HomeViewModel
 
-  public init() {
-    _viewModel = StateObject(wrappedValue: Container.shared.homeViewModel())
+  public init(viewModel: HomeViewModel) {
+    _viewModel = StateObject(wrappedValue: viewModel)
   }
 
   public var body: some View {

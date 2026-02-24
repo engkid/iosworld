@@ -7,9 +7,9 @@
 
 import Foundation
 import Combine
+import Factory
 
-@MainActor
-final class TabBarViewModel: ObservableObject {
+final class TabBarViewModel: TabBarViewModeling {
   
   @Published private(set) var items: [TabModel]
   @Published private(set) var selectedTab: TabItem
@@ -25,6 +25,15 @@ final class TabBarViewModel: ObservableObject {
     selectedTab = tab
     for i in items.indices {
       items[i].isSelected = (items[i].tab == tab)
+    }
+  }
+}
+
+extension Container {
+
+  var tabBarViewModel: Factory<TabBarViewModel> {
+    Factory(self) {
+      TabBarViewModel()
     }
   }
 }

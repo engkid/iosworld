@@ -9,8 +9,18 @@ import SwiftUI
 import Home
 import Factory
 
+@MainActor
 struct ContentView: View {
-  @StateObject private var tabBarViewModel = TabBarViewModel()
+  @StateObject private var tabBarViewModel: TabBarViewModel
+  private let homeModuleBuilder: any HomeModuleBuilding
+
+  init(
+    tabBarViewModel: TabBarViewModel,
+    homeModuleBuilder: any HomeModuleBuilding
+  ) {
+    _tabBarViewModel = StateObject(wrappedValue: tabBarViewModel)
+    self.homeModuleBuilder = homeModuleBuilder
+  }
 
   var body: some View {
     NavigationStack {
@@ -30,7 +40,7 @@ struct ContentView: View {
   private func tabContent(for tab: TabItem) -> some View {
     switch tab {
     case .home:
-      HomeView()
+      homeModuleBuilder.makeHomeView()
     case .feed:
       FeedTabView()
     case .profile:
@@ -103,5 +113,5 @@ private struct ArticlesTabView: View {
 }
 
 #Preview {
-  ContentView()
+  ContentView(tabBarViewModel: Container.shared.tabBarViewModel(), homeModuleBuilder: Container.shared.homeCompositionRoot())
 }

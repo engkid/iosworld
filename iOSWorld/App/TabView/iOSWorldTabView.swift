@@ -7,13 +7,16 @@
 
 import SwiftUI
 import Foundation
+import Factory
 
-struct iOSWorldTabView: View {
-  @ObservedObject var viewModel: TabBarViewModel
+struct iOSWorldTabView<ViewModel: TabBarViewModeling>: View {
+  @ObservedObject var viewModel: ViewModel
   
   var body: some View {
     GeometryReader { geometry in
-      let itemWidth = (geometry.size.width / CGFloat(TabItem.allCases.count)) - 32
+      let tabCount = CGFloat(max(TabItem.allCases.count, 1))
+      let availableWidth = geometry.size.width.isFinite ? geometry.size.width : 0
+      let itemWidth = max((availableWidth / tabCount) - 32, 0)
 
       VStack {
         Spacer()
@@ -49,7 +52,7 @@ struct iOSWorldTabView: View {
           .font(.caption.weight(.semibold))
       }
       .foregroundStyle(item.isSelected ? Color.white : Color.black.opacity(0.75))
-      .frame(width: width, height: 56)
+      .frame(width: max(width, 0), height: 56)
       .background(
         RoundedRectangle(cornerRadius: 18, style: .continuous)
           .fill(item.isSelected ? Color.black : Color.clear)
@@ -60,7 +63,7 @@ struct iOSWorldTabView: View {
     .buttonStyle(.plain)
   }
 }
-
+ 
 #Preview {
-  iOSWorldTabView(viewModel: TabBarViewModel())
+  iOSWorldTabView(viewModel: Container.shared.tabBarViewModel())
 }

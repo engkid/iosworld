@@ -9,6 +9,7 @@ import SwiftUI
 import Home
 import UIKit
 import Combine
+import Factory
 
 @main
 struct iOSWorldApp: App {
@@ -16,7 +17,7 @@ struct iOSWorldApp: App {
   
   var body: some Scene {
     WindowGroup {
-      ContentView()
+      ContentView(tabBarViewModel: Container.shared.tabBarViewModel(), homeModuleBuilder: Container.shared.homeCompositionRoot())
     }
   }
 }

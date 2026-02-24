@@ -1,0 +1,14 @@
+//
+//  TabBarViewModeling.swift
+//  iOSWorld
+//
+//  Created by Engkit Riswara on 25/02/26.
+//
+
+import Combine
+
+protocol TabBarViewModeling: ObservableObject {
+  var items: [TabModel] { get }
+  var selectedTab: TabItem { get }
+  func select(_ tab: TabItem)
+}
