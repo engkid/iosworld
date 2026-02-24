@@ -8,7 +8,7 @@
 import SwiftUI
 import Factory
 
-public struct HomeTabView: View {
+public struct HomeView: View {
   @StateObject private var viewModel: HomeViewModel
 
   public init() {

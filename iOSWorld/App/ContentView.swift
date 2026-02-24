@@ -30,7 +30,7 @@ struct ContentView: View {
   private func tabContent(for tab: TabItem) -> some View {
     switch tab {
     case .home:
-      HomeTabView()
+      HomeView()
     case .feed:
       FeedTabView()
     case .profile:
