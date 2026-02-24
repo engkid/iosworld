@@ -95,73 +95,17 @@ struct ContentView: View {
     NavigationStack {
       ZStack(alignment: .bottom) {
         VStack {
-        List(filtered, id: \.self) { item in
-          Text(item)
+          
+          Spacer()
+          
+          iOSWorldTabView()
+            .padding(.bottom, 8)
         }
-        .navigationTitle("Products")
-        .toolbar {
-          ToolbarItem(placement: .topBarTrailing) {
-            Button {
-              let destination = ProfileViewController()
-              navigator.navigate(to: destination, with: .push)
-            } label: {
-              Image(systemName: "plus")
-            }
-          }
-          ToolbarItem(placement: .topBarLeading) {
-            Button {
-              
-            } label: {
-              Image(systemName: "person")
-            }
-          }
-        }
-        
-        CustomTextField(
-              title: "Name (varchar, max 20)",
-              inputType: .varchar(maxLength: 20),
-              keyboardLabel: .next,
-              onThrottledChange: { value in
-                  lastThrottledName = value
-                  // Put expensive work here (e.g. server validation, search, analytics)
-              },
-              text: $name,
-              error: $nameError
-          )
-          .padding(.horizontal, 16)
-        
-        Spacer()
-        
-        CustomTextField(
-              title: "age (varchar, max 20)",
-              inputType: .varchar(maxLength: 20),
-              keyboardLabel: .next,
-              onThrottledChange: { value in
-                  lastThrottledName = value
-                  // Put expensive work here (e.g. server validation, search, analytics)
-              },
-              text: $age,
-              error: $ageError
-          )
-          .padding(.horizontal, 16)
-        
-        Spacer()
-        
-        Text("Name: \(lastThrottledName)").frame(alignment: .leading)
-        
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-
-        iOSWorldTabView()
-          .padding(.bottom, 8)
       }
-    }
-    .searchableOnAppear($query, prompt: "Search products", placement: .navigationBarDrawer(displayMode: .always)) { queryChanged in
-      print("query \(queryChanged)")
     }
   }
 }
 
 #Preview {
-    ContentView(navigator: HomeNavigator())
+  ContentView(navigator: HomeNavigator())
 }
