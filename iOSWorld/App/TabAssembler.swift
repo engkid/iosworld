@@ -1,8 +1,9 @@
 import Foundation
 import Combine
 import Factory
+import Home
 
-final class HomeTabViewModel: ObservableObject {
+final class FeedViewModel: ObservableObject {
   let title: String
   let subtitle: String
   
@@ -12,7 +13,7 @@ final class HomeTabViewModel: ObservableObject {
   }
 }
 
-final class FeedTabViewModel: ObservableObject {
+final class ProfileViewModel: ObservableObject {
   let title: String
   let subtitle: String
   
@@ -22,17 +23,7 @@ final class FeedTabViewModel: ObservableObject {
   }
 }
 
-final class ProfileTabViewModel: ObservableObject {
-  let title: String
-  let subtitle: String
-  
-  init(title: String, subtitle: String) {
-    self.title = title
-    self.subtitle = subtitle
-  }
-}
-
-final class ArticlesTabViewModel: ObservableObject {
+final class ArticlesViewModel: ObservableObject {
   let title: String
   let subtitle: String
   
@@ -44,37 +35,27 @@ final class ArticlesTabViewModel: ObservableObject {
 
 extension Container {
   
-  
-  var homeTabViewModel: Factory<HomeTabViewModel> {
+  var feedViewModel: Factory<FeedViewModel> {
     Factory(self) {
-      HomeTabViewModel(
-        title: "Home",
-        subtitle: "Welcome back! Explore updates and highlights."
-      )
-    }
-  }
-  
-  var feedTabViewModel: Factory<FeedTabViewModel> {
-    Factory(self) {
-      FeedTabViewModel(
+      FeedViewModel(
         title: "Feed",
         subtitle: "Your personalized feed appears here."
       )
     }
   }
   
-  var profileTabViewModel: Factory<ProfileTabViewModel> {
+  var profileViewModel: Factory<ProfileViewModel> {
     Factory(self) {
-      ProfileTabViewModel(
+      ProfileViewModel(
         title: "Profile",
         subtitle: "Manage your account and preferences."
       )
     }
   }
   
-  var articlesTabViewModel: Factory<ArticlesTabViewModel> {
+  var articlesViewModel: Factory<ArticlesViewModel> {
     Factory(self) {
-      ArticlesTabViewModel(
+      ArticlesViewModel(
         title: "Articles",
         subtitle: "Read curated stories and insights."
       )

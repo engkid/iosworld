@@ -41,30 +41,10 @@ struct ContentView: View {
   }
 }
 
-private struct HomeTabView: View {
-  @StateObject private var viewModel: HomeTabViewModel
-
-  init(viewModel: HomeTabViewModel = Container.shared.homeTabViewModel()) {
-    _viewModel = StateObject(wrappedValue: viewModel)
-  }
-
-  var body: some View {
-    VStack(spacing: 16) {
-      Text(viewModel.title)
-        .font(.largeTitle.weight(.bold))
-      Text(viewModel.subtitle)
-        .font(.body)
-        .foregroundStyle(.secondary)
-    }
-    .frame(maxWidth: .infinity, maxHeight: .infinity)
-    .background(Color(.systemGroupedBackground))
-  }
-}
-
 private struct FeedTabView: View {
-  @StateObject private var viewModel: FeedTabViewModel
+  @StateObject private var viewModel: FeedViewModel
 
-  init(viewModel: FeedTabViewModel = Container.shared.feedTabViewModel()) {
+  init(viewModel: FeedViewModel = Container.shared.feedViewModel()) {
     _viewModel = StateObject(wrappedValue: viewModel)
   }
 
@@ -82,10 +62,10 @@ private struct FeedTabView: View {
 }
 
 private struct ProfileTabView: View {
-  @StateObject private var viewModel: ProfileTabViewModel
+  @StateObject private var viewModel: ProfileViewModel
 
   @MainActor
-  init(viewModel: ProfileTabViewModel = Container.shared.profileTabViewModel()) {
+  init(viewModel: ProfileViewModel = Container.shared.profileViewModel()) {
     _viewModel = StateObject(wrappedValue: viewModel)
   }
 
@@ -103,9 +83,9 @@ private struct ProfileTabView: View {
 }
 
 private struct ArticlesTabView: View {
-  @StateObject private var viewModel: ArticlesTabViewModel
+  @StateObject private var viewModel: ArticlesViewModel
 
-  init(viewModel: ArticlesTabViewModel = Container.shared.articlesTabViewModel()) {
+  init(viewModel: ArticlesViewModel = Container.shared.articlesViewModel()) {
     _viewModel = StateObject(wrappedValue: viewModel)
   }
 
