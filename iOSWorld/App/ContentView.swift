@@ -68,44 +68,93 @@ final class ProfileViewController: UIViewController {
 }
 
 struct ContentView: View {
-  
-  @StateObject private var viewModel = HomeViewModel()
-  
-  @State private var query = ""
-  @State private var lastThrottledName = "-"
-  @State private var name = ""
-  @State private var nameError: FieldError?
-  @State private var age = ""
-  @State private var ageError: FieldError?
-  
-  private let items = ["Websocket", "iPad", "Mac", "Watch", "AirPods"]
-  
-  private let navigator: Navigating
-  
-  var filtered: [String] {
-    guard !query.isEmpty else { return items }
-    return items.filter { $0.localizedCaseInsensitiveContains(query) }
-  }
-  
-  init(navigator: Navigating) {
-    self.navigator = navigator
-  }
-  
+  @StateObject private var tabBarViewModel = TabBarViewModel()
+
   var body: some View {
     NavigationStack {
       ZStack(alignment: .bottom) {
-        VStack {
-          
-          Spacer()
-          
-          iOSWorldTabView()
-            .padding(.bottom, 8)
+        ZStack {
+          tabContent(for: tabBarViewModel.selectedTab)
         }
+        .animation(.spring(response: 0.4, dampingFraction: 0.85), value: tabBarViewModel.selectedTab)
+
+        iOSWorldTabView(viewModel: tabBarViewModel)
+          .padding(.bottom, 8)
       }
+    }
+  }
+
+  @ViewBuilder
+  private func tabContent(for tab: TabItem) -> some View {
+    switch tab {
+    case .home:
+      HomeTabView()
+    case .feed:
+      FeedTabView()
+    case .profile:
+      ProfileTabView()
+    case .articles:
+      ArticlesTabView()
     }
   }
 }
 
+private struct HomeTabView: View {
+  var body: some View {
+    VStack(spacing: 16) {
+      Text("Home")
+        .font(.largeTitle.weight(.bold))
+      Text("Welcome back! Explore updates and highlights.")
+        .font(.body)
+        .foregroundStyle(.secondary)
+    }
+    .frame(maxWidth: .infinity, maxHeight: .infinity)
+    .background(Color(.systemGroupedBackground))
+  }
+}
+
+private struct FeedTabView: View {
+  var body: some View {
+    VStack(spacing: 16) {
+      Text("Feed")
+        .font(.largeTitle.weight(.bold))
+      Text("Your personalized feed appears here.")
+        .font(.body)
+        .foregroundStyle(.secondary)
+    }
+    .frame(maxWidth: .infinity, maxHeight: .infinity)
+    .background(Color(.systemGroupedBackground))
+  }
+}
+
+private struct ProfileTabView: View {
+  var body: some View {
+    VStack(spacing: 16) {
+      Text("Profile")
+        .font(.largeTitle.weight(.bold))
+      Text("Manage your account and preferences.")
+        .font(.body)
+        .foregroundStyle(.secondary)
+    }
+    .frame(maxWidth: .infinity, maxHeight: .infinity)
+    .background(Color(.systemGroupedBackground))
+  }
+}
+
+private struct ArticlesTabView: View {
+  var body: some View {
+    VStack(spacing: 16) {
+      Text("Articles")
+        .font(.largeTitle.weight(.bold))
+      Text("Read curated stories and insights.")
+        .font(.body)
+        .foregroundStyle(.secondary)
+    }
+    .frame(maxWidth: .infinity, maxHeight: .infinity)
+    .background(Color(.systemGroupedBackground))
+  }
+}
+
 #Preview {
-  ContentView(navigator: HomeNavigator())
+  ContentView()
 }

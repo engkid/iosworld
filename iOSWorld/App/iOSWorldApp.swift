@@ -16,7 +16,7 @@ struct iOSWorldApp: App {
   
   var body: some Scene {
     WindowGroup {
-      ContentView(navigator: HomeNavigator())
+      ContentView()
     }
   }
 }
@@ -85,7 +85,7 @@ final class TabBarViewModel: ObservableObject {
 }
 
 struct iOSWorldTabView: View {
-  @StateObject private var viewModel = TabBarViewModel()
+  @ObservedObject var viewModel: TabBarViewModel
   
   var body: some View {
     GeometryReader { geometry in
@@ -138,5 +138,5 @@ struct iOSWorldTabView: View {
 }
 
 #Preview {
-  iOSWorldTabView()
+  iOSWorldTabView(viewModel: TabBarViewModel())
 }
