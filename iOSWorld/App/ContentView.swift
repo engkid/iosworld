@@ -51,6 +51,7 @@ struct ContentView: View {
   }
 }
 
+// MARK: - move to Feed Module later
 private struct FeedTabView: View {
   @StateObject private var viewModel: FeedViewModel
 
@@ -71,6 +72,7 @@ private struct FeedTabView: View {
   }
 }
 
+// MARK: move to Profile Module later
 private struct ProfileTabView: View {
   @StateObject private var viewModel: ProfileViewModel
 
@@ -92,6 +94,7 @@ private struct ProfileTabView: View {
   }
 }
 
+// MARK: move to Articles Module later
 private struct ArticlesTabView: View {
   @StateObject private var viewModel: ArticlesViewModel
 
