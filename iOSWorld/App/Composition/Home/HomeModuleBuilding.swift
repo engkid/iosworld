@@ -6,7 +6,11 @@
 //
 
 import Home
+import SwiftUI
 
 protocol HomeModuleBuilding: AnyObject {
-  func makeHomeView() -> HomeView
+  func makeHomeView(
+    onIntent: @escaping (HomeIntent) -> Void,
+    profileDestination: @escaping () -> AnyView
+  ) -> HomeView
 }

@@ -40,13 +40,26 @@ struct ContentView: View {
   private func tabContent(for tab: TabItem) -> some View {
     switch tab {
     case .home:
-      homeModuleBuilder.makeHomeView()
+      homeModuleBuilder.makeHomeView { intent in
+        Task { @MainActor in
+          handleHomeIntent(intent)
+        }
+      } profileDestination: {
+        AnyView(ProfileView())
+      }
     case .feed:
       FeedTabView()
     case .profile:
-      ProfileTabView()
+      ProfileView()
     case .articles:
       ArticlesTabView()
+    }
+  }
+
+  private func handleHomeIntent(_ intent: HomeIntent) {
+    switch intent {
+    case .openProfile:
+      tabBarViewModel.select(.profile)
     }
   }
 }
@@ -73,7 +86,7 @@ private struct FeedTabView: View {
 }
 
 // MARK: move to Profile Module later
-private struct ProfileTabView: View {
+private struct ProfileView: View {
   @StateObject private var viewModel: ProfileViewModel
 
   @MainActor
