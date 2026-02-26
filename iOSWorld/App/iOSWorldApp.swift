@@ -17,7 +17,7 @@ struct iOSWorldApp: App {
   
   var body: some Scene {
     WindowGroup {
-      ContentView(tabBarViewModel: Container.shared.tabBarViewModel(), homeModuleBuilder: Container.shared.homeCompositionRoot())
+      MainTabView()
     }
   }
 }

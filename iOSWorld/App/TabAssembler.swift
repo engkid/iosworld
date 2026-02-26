@@ -61,4 +61,16 @@ extension Container {
       )
     }
   }
+  
+  var moduleManager: Factory<ModuleManaging> {
+    Factory(self) {
+      ModuleManager()
+    }.scope(.singleton)
+  }
+  
+  var tabRouter: Factory<TabRouting> {
+    Factory(self) {
+      TabRouter()
+    }.singleton
+  }
 }

@@ -10,29 +10,31 @@ import Home
 import Factory
 
 @MainActor
-struct ContentView: View {
-  @StateObject private var tabBarViewModel: TabBarViewModel
-  private let homeModuleBuilder: HomeModuleBuilding
-
-  init(
-    tabBarViewModel: TabBarViewModel,
-    homeModuleBuilder: HomeModuleBuilding
-  ) {
-    _tabBarViewModel = StateObject(wrappedValue: tabBarViewModel)
-    self.homeModuleBuilder = homeModuleBuilder
-  }
+struct MainTabView: View {
+  
+  @InjectedObject(\.tabBarViewModel) var viewModel
+  @Injected(\.homeCompositionRoot) var homeModuleBuilder
+  @Injected(\.moduleManager) var moduleManager
+  @Injected(\.tabRouter) var tabRouter
 
   var body: some View {
     NavigationStack {
       ZStack(alignment: .bottom) {
         ZStack {
-          tabContent(for: tabBarViewModel.selectedTab)
+          tabContent(for: viewModel.selectedTab)
         }
-        .animation(.spring(response: 0.4, dampingFraction: 0.85), value: tabBarViewModel.selectedTab)
+        .animation(.spring(response: 0.4, dampingFraction: 0.85), value: viewModel.selectedTab)
 
-        iOSWorldTabView(viewModel: tabBarViewModel)
+        iOSWorldTabView(viewModel: viewModel)
           .padding(.bottom, 8)
       }
+    }
+    .onAppear {
+      tabRouter.bindTabSelection { tab in
+        viewModel.select(tab)
+      }
+
+      moduleManager.setLauncher(tabRouter)
     }
   }
 
@@ -41,9 +43,7 @@ struct ContentView: View {
     switch tab {
     case .home:
       homeModuleBuilder.makeHomeView { intent in
-        Task { @MainActor in
-          handleHomeIntent(intent)
-        }
+        moduleManager.handle(homeIntent: intent)
       } profileDestination: {
         AnyView(ProfileView())
       }
@@ -56,21 +56,12 @@ struct ContentView: View {
     }
   }
 
-  private func handleHomeIntent(_ intent: HomeIntent) {
-    switch intent {
-    case .openProfile:
-      tabBarViewModel.select(.profile)
-    }
-  }
 }
 
 // MARK: - move to Feed Module later
 private struct FeedTabView: View {
-  @StateObject private var viewModel: FeedViewModel
-
-  init(viewModel: FeedViewModel = Container.shared.feedViewModel()) {
-    _viewModel = StateObject(wrappedValue: viewModel)
-  }
+  
+  @InjectedObject(\.feedViewModel) var viewModel
 
   var body: some View {
     VStack(spacing: 16) {
@@ -87,12 +78,8 @@ private struct FeedTabView: View {
 
 // MARK: move to Profile Module later
 private struct ProfileView: View {
-  @StateObject private var viewModel: ProfileViewModel
-
-  @MainActor
-  init(viewModel: ProfileViewModel = Container.shared.profileViewModel()) {
-    _viewModel = StateObject(wrappedValue: viewModel)
-  }
+  
+  @InjectedObject(\.profileViewModel) var viewModel
 
   var body: some View {
     VStack(spacing: 16) {
@@ -109,11 +96,8 @@ private struct ProfileView: View {
 
 // MARK: move to Articles Module later
 private struct ArticlesTabView: View {
-  @StateObject private var viewModel: ArticlesViewModel
-
-  init(viewModel: ArticlesViewModel = Container.shared.articlesViewModel()) {
-    _viewModel = StateObject(wrappedValue: viewModel)
-  }
+  
+  @InjectedObject(\.articlesViewModel) var viewModel
 
   var body: some View {
     VStack(spacing: 16) {
@@ -129,5 +113,5 @@ private struct ArticlesTabView: View {
 }
 
 #Preview {
-  ContentView(tabBarViewModel: Container.shared.tabBarViewModel(), homeModuleBuilder: Container.shared.homeCompositionRoot())
+  MainTabView()
 }
