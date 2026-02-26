@@ -14,7 +14,7 @@ extension Container {
     }
   }
 
-  var homeCompositionRoot: Factory<any HomeModuleBuilding> {
+  var homeCompositionRoot: Factory<HomeModuleBuilding> {
     Factory(self) {
       HomeCompositionRoot(container: self)
     }

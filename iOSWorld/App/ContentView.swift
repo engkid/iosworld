@@ -12,11 +12,11 @@ import Factory
 @MainActor
 struct ContentView: View {
   @StateObject private var tabBarViewModel: TabBarViewModel
-  private let homeModuleBuilder: any HomeModuleBuilding
+  private let homeModuleBuilder: HomeModuleBuilding
 
   init(
     tabBarViewModel: TabBarViewModel,
-    homeModuleBuilder: any HomeModuleBuilding
+    homeModuleBuilder: HomeModuleBuilding
   ) {
     _tabBarViewModel = StateObject(wrappedValue: tabBarViewModel)
     self.homeModuleBuilder = homeModuleBuilder
