@@ -6,9 +6,13 @@
 //
 
 import Foundation
+import SwiftUI
+import Home
 
 protocol TabRouting: AnyObject, Launching {
   func bindTabSelection(_ handler: @escaping (TabItem) -> Void)
+  @MainActor
+  func makeHomeRoot(homeModuleBuilder: HomeModuleBuilding, moduleManager: ModuleManaging) -> AnyView
 }
 
 final class TabRouter: TabRouting {
@@ -35,6 +39,19 @@ final class TabRouter: TabRouting {
     Task { @MainActor in
       self.tabSelectionHandler?(tab)
     }
+  }
+
+  @MainActor
+  func makeHomeRoot(homeModuleBuilder: HomeModuleBuilding, moduleManager: ModuleManaging) -> AnyView {
+    AnyView(
+      NavigationStack {
+        homeModuleBuilder.makeHomeView { intent in
+          moduleManager.handle(homeIntent: intent)
+        } profileDestination: {
+          AnyView(EmptyView())
+        }
+      }
+    )
   }
   
 }

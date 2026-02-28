@@ -6,10 +6,6 @@
 //
 
 import SwiftUI
-import Home
-import UIKit
-import Combine
-import Factory
 
 @main
 struct iOSWorldApp: App {
@@ -17,7 +13,7 @@ struct iOSWorldApp: App {
   
   var body: some Scene {
     WindowGroup {
-      MainTabView()
+      EmptyView()
     }
   }
 }

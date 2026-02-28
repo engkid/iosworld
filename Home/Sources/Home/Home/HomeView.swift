@@ -42,8 +42,8 @@ private struct HomeDetailView: View {
         .font(.body)
         .foregroundStyle(.secondary)
         .multilineTextAlignment(.center)
-      NavigationLink("Open Profile Module") {
-        viewModel.makeProfileDestinationView()
+      Button("Open Profile Module") {
+        viewModel.openProfile()
       }
       .buttonStyle(.borderedProminent)
     }

@@ -18,16 +18,14 @@ struct MainTabView: View {
   @Injected(\.tabRouter) var tabRouter
 
   var body: some View {
-    NavigationStack {
-      ZStack(alignment: .bottom) {
-        ZStack {
-          tabContent(for: viewModel.selectedTab)
-        }
-        .animation(.spring(response: 0.4, dampingFraction: 0.85), value: viewModel.selectedTab)
-
-        iOSWorldTabView(viewModel: viewModel)
-          .padding(.bottom, 8)
+    ZStack(alignment: .bottom) {
+      ZStack {
+        tabContent(for: viewModel.selectedTab)
       }
+      .animation(.spring(response: 0.4, dampingFraction: 0.85), value: viewModel.selectedTab)
+
+      iOSWorldTabView(viewModel: viewModel)
+        .padding(.bottom, 8)
     }
     .onAppear {
       tabRouter.bindTabSelection { tab in
@@ -40,20 +38,21 @@ struct MainTabView: View {
 
   @ViewBuilder
   private func tabContent(for tab: TabItem) -> some View {
-    switch tab {
-    case .home:
-      homeModuleBuilder.makeHomeView { intent in
-        moduleManager.handle(homeIntent: intent)
-      } profileDestination: {
-        AnyView(ProfileView())
-      }
-    case .feed:
-      FeedTabView()
-    case .profile:
-      ProfileView()
-    case .articles:
-      ArticlesTabView()
-    }
+    tabRouter.makeHomeRoot(homeModuleBuilder: homeModuleBuilder, moduleManager: moduleManager)
+      .opacity(tab == .home ? 1 : 0)
+      .allowsHitTesting(tab == .home)
+    
+    FeedTabView()
+      .opacity(tab == .feed ? 1 : 0)
+      .allowsHitTesting(tab == .feed)
+    
+    ProfileView()
+      .opacity(tab == .profile ? 1 : 0)
+      .allowsHitTesting(tab == .profile)
+    
+    ArticlesTabView()
+      .opacity(tab == .articles ? 1 : 0)
+      .allowsHitTesting(tab == .articles)
   }
 
 }
@@ -64,15 +63,21 @@ private struct FeedTabView: View {
   @InjectedObject(\.feedViewModel) var viewModel
 
   var body: some View {
-    VStack(spacing: 16) {
-      Text(viewModel.title)
-        .font(.largeTitle.weight(.bold))
-      Text(viewModel.subtitle)
-        .font(.body)
-        .foregroundStyle(.secondary)
+    NavigationStack {
+      VStack(spacing: 16) {
+        Text(viewModel.title)
+          .font(.largeTitle.weight(.bold))
+        Text(viewModel.subtitle)
+          .font(.body)
+          .foregroundStyle(.secondary)
+        NavigationLink("Go to Feed Detail") {
+          FeedDetailView()
+        }
+        .buttonStyle(.borderedProminent)
+      }
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+      .background(Color(.systemGroupedBackground))
     }
-    .frame(maxWidth: .infinity, maxHeight: .infinity)
-    .background(Color(.systemGroupedBackground))
   }
 }
 
@@ -82,15 +87,21 @@ private struct ProfileView: View {
   @InjectedObject(\.profileViewModel) var viewModel
 
   var body: some View {
-    VStack(spacing: 16) {
-      Text(viewModel.title)
-        .font(.largeTitle.weight(.bold))
-      Text(viewModel.subtitle)
-        .font(.body)
-        .foregroundStyle(.secondary)
+    NavigationStack {
+      VStack(spacing: 16) {
+        Text(viewModel.title)
+          .font(.largeTitle.weight(.bold))
+        Text(viewModel.subtitle)
+          .font(.body)
+          .foregroundStyle(.secondary)
+        NavigationLink("Go to Profile Detail") {
+          ProfileDetailView()
+        }
+        .buttonStyle(.borderedProminent)
+      }
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+      .background(Color(.systemGroupedBackground))
     }
-    .frame(maxWidth: .infinity, maxHeight: .infinity)
-    .background(Color(.systemGroupedBackground))
   }
 }
 
@@ -100,15 +111,48 @@ private struct ArticlesTabView: View {
   @InjectedObject(\.articlesViewModel) var viewModel
 
   var body: some View {
-    VStack(spacing: 16) {
-      Text(viewModel.title)
-        .font(.largeTitle.weight(.bold))
-      Text(viewModel.subtitle)
-        .font(.body)
-        .foregroundStyle(.secondary)
+    NavigationStack {
+      VStack(spacing: 16) {
+        Text(viewModel.title)
+          .font(.largeTitle.weight(.bold))
+        Text(viewModel.subtitle)
+          .font(.body)
+          .foregroundStyle(.secondary)
+        NavigationLink("Go to Articles Detail") {
+          ArticlesDetailView()
+        }
+        .buttonStyle(.borderedProminent)
+      }
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+      .background(Color(.systemGroupedBackground))
     }
-    .frame(maxWidth: .infinity, maxHeight: .infinity)
-    .background(Color(.systemGroupedBackground))
+  }
+}
+
+private struct FeedDetailView: View {
+  var body: some View {
+    Text("Feed Detail")
+      .font(.title.bold())
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+      .background(Color(.systemGroupedBackground))
+  }
+}
+
+private struct ProfileDetailView: View {
+  var body: some View {
+    Text("Profile Detail")
+      .font(.title.bold())
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+      .background(Color(.systemGroupedBackground))
+  }
+}
+
+private struct ArticlesDetailView: View {
+  var body: some View {
+    Text("Articles Detail")
+      .font(.title.bold())
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+      .background(Color(.systemGroupedBackground))
   }
 }
 
