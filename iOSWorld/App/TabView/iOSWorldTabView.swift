@@ -40,6 +40,10 @@ struct iOSWorldTabView<ViewModel: TabBarViewModeling>: View {
   }
 
   private func tabButton(for item: TabModel, width: CGFloat) -> some View {
+    let buttonWidth = max(width, 0)
+    let visualHeight: CGFloat = 56
+    let tapTargetHeight: CGFloat = 72
+
     return Button {
       withAnimation(.spring(response: 0.35, dampingFraction: 0.75)) {
         viewModel.select(item.tab)
@@ -52,13 +56,15 @@ struct iOSWorldTabView<ViewModel: TabBarViewModeling>: View {
           .font(.caption.weight(.semibold))
       }
       .foregroundStyle(item.isSelected ? Color.white : Color.black.opacity(0.75))
-      .frame(width: max(width, 0), height: 56)
+      .frame(width: buttonWidth, height: visualHeight)
       .background(
         RoundedRectangle(cornerRadius: 18, style: .continuous)
           .fill(item.isSelected ? Color.black : Color.clear)
           .shadow(color: Color.black.opacity(item.isSelected ? 0.25 : 0), radius: 10, x: 0, y: 6)
       )
       .offset(y: item.isSelected ? -8 : 0)
+      .frame(width: buttonWidth, height: tapTargetHeight)
+      .contentShape(Rectangle())
     }
     .buttonStyle(.plain)
   }
