@@ -7,7 +7,25 @@
 		<key>iOSWorld.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>1</integer>
+		</dict>
+		<key>iOSWorldTests.xcscheme_^#shared#^_</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>42C607232F0DE5B70072945E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>42D2D6222F533E93007B16AE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>
