@@ -13,7 +13,7 @@ import Core
 protocol TabRouting: AnyObject {
   var launcher: Launching? { get set }
   
-  func launch2(route: ModuleRoute)
+  func launch(route: ModuleRoute)
   
   @MainActor
   func makeHomeRoot(homeModuleBuilder: HomeModuleBuilding) -> AnyView
@@ -28,7 +28,7 @@ final class TabRouter: TabRouting {
     self.moduleManager = moduleManager
   }
   
-  func launch2(route: ModuleRoute) {
+  func launch(route: ModuleRoute) {
     moduleManager.launch(to: route)
   }
 

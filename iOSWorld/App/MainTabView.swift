@@ -98,7 +98,7 @@ struct MainTabView: View {
       route = .profile
     }
 
-    tabRouter.launch2(route: route)
+    tabRouter.launch(route: route)
   }
 }
 
