@@ -47,14 +47,12 @@ final class iOSWorldTabViewModel: TabBarViewModeling {
   func configureItems(
     homeModuleBuilder: HomeModuleBuilding,
     feedModuleBuilder: FeedModuleBuilding,
-    moduleManager: ModuleManaging,
     tabRouter: TabRouting
   ) {
     setItems(
       makeTabItems(
         homeModuleBuilder: homeModuleBuilder,
         feedModuleBuilder: feedModuleBuilder,
-        moduleManager: moduleManager,
         tabRouter: tabRouter
       )
     )
@@ -64,14 +62,13 @@ final class iOSWorldTabViewModel: TabBarViewModeling {
   private func makeTabItems(
     homeModuleBuilder: HomeModuleBuilding,
     feedModuleBuilder: FeedModuleBuilding,
-    moduleManager: ModuleManaging,
     tabRouter: TabRouting
   ) -> [TabModel] {
     [
       TabModel(
         tab: .home,
         isSelected: selectedTab == .home,
-        view: tabRouter.makeHomeRoot(homeModuleBuilder: homeModuleBuilder, moduleManager: moduleManager)
+        view: tabRouter.makeHomeRoot(homeModuleBuilder: homeModuleBuilder)
       ),
       TabModel(
         tab: .feed,

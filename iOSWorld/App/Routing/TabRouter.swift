@@ -16,7 +16,7 @@ protocol TabRouting: AnyObject {
   func launch2(route: ModuleRoute)
   
   @MainActor
-  func makeHomeRoot(homeModuleBuilder: HomeModuleBuilding, moduleManager: ModuleManaging) -> AnyView
+  func makeHomeRoot(homeModuleBuilder: HomeModuleBuilding) -> AnyView
 }
 
 final class TabRouter: TabRouting {
@@ -33,7 +33,7 @@ final class TabRouter: TabRouting {
   }
 
   @MainActor
-  func makeHomeRoot(homeModuleBuilder: HomeModuleBuilding, moduleManager: ModuleManaging) -> AnyView {
+  func makeHomeRoot(homeModuleBuilder: HomeModuleBuilding) -> AnyView {
     AnyView(
       NavigationStack {
         homeModuleBuilder.makeHomeView { intent in

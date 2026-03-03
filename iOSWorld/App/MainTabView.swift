@@ -17,7 +17,6 @@ struct MainTabView: View {
   @InjectedObject(\.tabBarViewModel) var viewModel
   @Injected(\.homeCompositionRoot) var homeModuleBuilder
   @Injected(\.feedCompositionRoot) var feedModuleBuilder
-  @Injected(\.moduleManager) var moduleManager
   @Injected(\.tabRouter) var tabRouter
   @State private var hiddenTabs: Set<String> = []
 
@@ -53,7 +52,6 @@ struct MainTabView: View {
       viewModel.configureItems(
         homeModuleBuilder: homeModuleBuilder,
         feedModuleBuilder: feedModuleBuilder,
-        moduleManager: moduleManager,
         tabRouter: tabRouter
       )
       
@@ -100,7 +98,7 @@ struct MainTabView: View {
       route = .profile
     }
 
-    moduleManager.launch(to: route)
+    tabRouter.launch2(route: route)
   }
 }
 
