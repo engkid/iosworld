@@ -32,8 +32,8 @@
 		4267F7AB2F56A47000A6F493 /* Exceptions for "iOSWorld" folder in "iOSWorld" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				modules/Core,
-				modules/NetworkService,
+				Modules/Core,
+				Modules/NetworkService,
 			);
 			target = 42C607232F0DE5B70072945E /* iOSWorld */;
 		};
