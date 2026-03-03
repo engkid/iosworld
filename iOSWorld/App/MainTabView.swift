@@ -18,31 +18,14 @@ struct MainTabView: View {
   @Injected(\.homeCompositionRoot) var homeModuleBuilder
   @Injected(\.feedCompositionRoot) var feedModuleBuilder
   @Injected(\.tabRouter) var tabRouter
-  @State private var hiddenTabs: Set<String> = []
 
   var body: some View {
     ZStack(alignment: .bottom) {
       ZStack { tabContent }
       .animation(.spring(response: 0.4, dampingFraction: 0.85), value: viewModel.selectedTab)
-
-      if !isTabBarHidden {
-        iOSWorldTabView(viewModel: viewModel)
-          .padding(.bottom, 8)
-      }
-    }
-    .onReceive(NotificationCenter.default.publisher(for: TabBarVisibilityNotification.name)) { notification in
-      guard
-        let tab = notification.userInfo?[TabBarVisibilityNotification.tabKey] as? String,
-        let isHidden = notification.userInfo?[TabBarVisibilityNotification.isHiddenKey] as? Bool
-      else {
-        return
-      }
-
-      if isHidden {
-        hiddenTabs.insert(tab)
-      } else {
-        hiddenTabs.remove(tab)
-      }
+      
+      iOSWorldTabView(viewModel: viewModel)
+        .padding(.bottom, 8)
     }
     .onChange(of: viewModel.selectedTab) { _, selectedTab in
       onTabSelected(selectedTab)
@@ -57,11 +40,7 @@ struct MainTabView: View {
       
     }
   }
-
-  private var isTabBarHidden: Bool {
-    hiddenTabs.contains(selectedTabIdentifier)
-  }
-
+  
   private var selectedTabIdentifier: String {
     switch viewModel.selectedTab {
     case .home:
@@ -104,10 +83,4 @@ struct MainTabView: View {
 
 #Preview {
   MainTabView()
-}
-
-private enum TabBarVisibilityNotification {
-  static let name = Notification.Name("iOSWorld.TabBarVisibilityChanged")
-  static let tabKey = "tab"
-  static let isHiddenKey = "isHidden"
 }
