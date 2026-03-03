@@ -9,6 +9,7 @@ import SwiftUI
 import Factory
 import Foundation
 import Home
+import Core
 
 @MainActor
 struct MainTabView: View {

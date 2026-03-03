@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		42231E262F12D67C00166B41 /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = 42231E252F12D67C00166B41 /* Home */; };
-		423D88782F101D3500B85398 /* Factory in Frameworks */ = {isa = PBXBuildFile; productRef = 423D88772F101D3500B85398 /* Factory */; };
-		423D887A2F101D3500B85398 /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = 423D88792F101D3500B85398 /* FactoryKit */; };
-		42C6074B2F0E4E860072945E /* NetworkService in Frameworks */ = {isa = PBXBuildFile; productRef = 42C6074A2F0E4E860072945E /* NetworkService */; };
+		426712F12F56A52B00A6F493 /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = 426712F02F56A52B00A6F493 /* Core */; };
+		426712F32F56A52F00A6F493 /* Home in Frameworks */ = {isa = PBXBuildFile; productRef = 426712F22F56A52F00A6F493 /* Home */; };
+		426712F52F56A53300A6F493 /* Factory in Frameworks */ = {isa = PBXBuildFile; productRef = 426712F42F56A53300A6F493 /* Factory */; };
+		426712FB2F56A60000A6F493 /* NetworkService in Frameworks */ = {isa = PBXBuildFile; productRef = 426712FA2F56A60000A6F493 /* NetworkService */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -24,15 +24,27 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		42231DFB2F11739900166B41 /* Home */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Home; sourceTree = "<group>"; };
 		42C607242F0DE5B70072945E /* iOSWorld.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSWorld.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		42C607472F0E4E5B0072945E /* NetworkService */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = NetworkService; sourceTree = "<group>"; };
 		42D2D6232F533E93007B16AE /* iOSWorldTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iOSWorldTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		4267F7AB2F56A47000A6F493 /* Exceptions for "iOSWorld" folder in "iOSWorld" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				modules/Core,
+				modules/NetworkService,
+			);
+			target = 42C607232F0DE5B70072945E /* iOSWorld */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		42C607262F0DE5B70072945E /* iOSWorld */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4267F7AB2F56A47000A6F493 /* Exceptions for "iOSWorld" folder in "iOSWorld" target */,
+			);
 			path = iOSWorld;
 			sourceTree = "<group>";
 		};
@@ -48,10 +60,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				423D887A2F101D3500B85398 /* FactoryKit in Frameworks */,
-				42231E262F12D67C00166B41 /* Home in Frameworks */,
-				42C6074B2F0E4E860072945E /* NetworkService in Frameworks */,
-				423D88782F101D3500B85398 /* Factory in Frameworks */,
+				426712F52F56A53300A6F493 /* Factory in Frameworks */,
+				426712FB2F56A60000A6F493 /* NetworkService in Frameworks */,
+				426712F12F56A52B00A6F493 /* Core in Frameworks */,
+				426712F32F56A52F00A6F493 /* Home in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,8 +80,6 @@
 		42C6071B2F0DE5B70072945E = {
 			isa = PBXGroup;
 			children = (
-				42231DFB2F11739900166B41 /* Home */,
-				42C607472F0E4E5B0072945E /* NetworkService */,
 				42C607262F0DE5B70072945E /* iOSWorld */,
 				42D2D6242F533E93007B16AE /* iOSWorldTests */,
 				42C607492F0E4E860072945E /* Frameworks */,
@@ -113,10 +123,10 @@
 			);
 			name = iOSWorld;
 			packageProductDependencies = (
-				42C6074A2F0E4E860072945E /* NetworkService */,
-				423D88772F101D3500B85398 /* Factory */,
-				423D88792F101D3500B85398 /* FactoryKit */,
-				42231E252F12D67C00166B41 /* Home */,
+				426712F02F56A52B00A6F493 /* Core */,
+				426712F22F56A52F00A6F493 /* Home */,
+				426712F42F56A53300A6F493 /* Factory */,
+				426712FA2F56A60000A6F493 /* NetworkService */,
 			);
 			productName = iOSWorld;
 			productReference = 42C607242F0DE5B70072945E /* iOSWorld.app */;
@@ -533,21 +543,20 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		42231E252F12D67C00166B41 /* Home */ = {
+		426712F02F56A52B00A6F493 /* Core */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Core;
+		};
+		426712F22F56A52F00A6F493 /* Home */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Home;
 		};
-		423D88772F101D3500B85398 /* Factory */ = {
+		426712F42F56A53300A6F493 /* Factory */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 423D88762F101D3500B85398 /* XCRemoteSwiftPackageReference "Factory" */;
 			productName = Factory;
 		};
-		423D88792F101D3500B85398 /* FactoryKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 423D88762F101D3500B85398 /* XCRemoteSwiftPackageReference "Factory" */;
-			productName = FactoryKit;
-		};
-		42C6074A2F0E4E860072945E /* NetworkService */ = {
+		426712FA2F56A60000A6F493 /* NetworkService */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = NetworkService;
 		};

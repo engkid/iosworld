@@ -7,6 +7,7 @@
 
 import Foundation
 import Home
+import Core
 
 protocol ModuleManaging: AnyObject {
   func launch(to route: ModuleRoute)

@@ -54,48 +54,4 @@ private enum TabBarVisibilityNotification {
   }
 }
 
-public protocol Launchable {
-  
-  var launcher: Launching? { get set }
-  
-  func launch(moduleName: String)
-  
-}
 
-public final class HomeModule: Launchable {
-  
-  public var launcher: Launching?
-  
-  public init(launcher: Launching?) {
-    self.launcher = launcher
-  }
-  
-  public func launch(moduleName: String) {
-    launcher?.launch(route: .home)
-  }
-  
-}
-
-public protocol Launching: AnyObject {
-  func launch(route: ModuleRoute)
-}
-
-public enum ModuleRoute: Hashable, CustomStringConvertible {
-  case home
-  case feed
-  case profile
-  case articles
-
-  public var description: String {
-    switch self {
-    case .home:
-      return "home"
-    case .feed:
-      return "feed"
-    case .profile:
-      return "profile"
-    case .articles:
-      return "articles"
-    }
-  }
-}

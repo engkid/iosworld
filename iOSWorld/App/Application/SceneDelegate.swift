@@ -10,6 +10,7 @@ import SwiftUI
 import os
 import Factory
 import Home
+import Core
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   
