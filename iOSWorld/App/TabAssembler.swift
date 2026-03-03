@@ -3,16 +3,6 @@ import Combine
 import Factory
 import Home
 
-final class FeedViewModel: ObservableObject {
-  let title: String
-  let subtitle: String
-  
-  init(title: String, subtitle: String) {
-    self.title = title
-    self.subtitle = subtitle
-  }
-}
-
 final class ProfileViewModel: ObservableObject {
   let title: String
   let subtitle: String
@@ -34,16 +24,7 @@ final class ArticlesViewModel: ObservableObject {
 }
 
 extension Container {
-  
-  var feedViewModel: Factory<FeedViewModel> {
-    Factory(self) {
-      FeedViewModel(
-        title: "Feed",
-        subtitle: "Your personalized feed appears here."
-      )
-    }
-  }
-  
+
   var profileViewModel: Factory<ProfileViewModel> {
     Factory(self) {
       ProfileViewModel(

@@ -16,6 +16,7 @@ struct MainTabView: View {
   
   @InjectedObject(\.tabBarViewModel) var viewModel
   @Injected(\.homeCompositionRoot) var homeModuleBuilder
+  @Injected(\.feedCompositionRoot) var feedModuleBuilder
   @Injected(\.moduleManager) var moduleManager
   @Injected(\.tabRouter) var tabRouter
   @State private var hiddenTabs: Set<String> = []
@@ -51,6 +52,7 @@ struct MainTabView: View {
       
       viewModel.configureItems(
         homeModuleBuilder: homeModuleBuilder,
+        feedModuleBuilder: feedModuleBuilder,
         moduleManager: moduleManager,
         tabRouter: tabRouter
       )
@@ -85,13 +87,20 @@ struct MainTabView: View {
   }
 
   private func onTabSelected(_ tab: TabItem) {
+    let route: ModuleRoute
+
     switch tab {
+    case .home:
+      route = .home
     case .feed:
-      tabRouter.launch2(route: .home)
-      return
-    default:
-      break
+      route = .feed
+    case .articles:
+      route = .articles
+    case .profile:
+      route = .profile
     }
+
+    moduleManager.launch(to: route)
   }
 }
 

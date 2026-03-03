@@ -15,6 +15,7 @@ protocol TabBarViewModeling: ObservableObject {
   @MainActor
   func configureItems(
     homeModuleBuilder: HomeModuleBuilding,
+    feedModuleBuilder: FeedModuleBuilding,
     moduleManager: ModuleManaging,
     tabRouter: TabRouting
   )

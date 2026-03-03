@@ -8,29 +8,6 @@
 import SwiftUI
 import Factory
 
-struct FeedTabView: View {
-
-  @InjectedObject(\.feedViewModel) var viewModel
-
-  var body: some View {
-    NavigationStack {
-      VStack(spacing: 16) {
-        Text(viewModel.title)
-          .font(.largeTitle.weight(.bold))
-        Text(viewModel.subtitle)
-          .font(.body)
-          .foregroundStyle(.secondary)
-        NavigationLink("Go to Feed Detail") {
-          FeedDetailView()
-        }
-        .buttonStyle(.borderedProminent)
-      }
-      .frame(maxWidth: .infinity, maxHeight: .infinity)
-      .background(Color(.systemGroupedBackground))
-    }
-  }
-}
-
 struct ProfileTabView: View {
 
   @InjectedObject(\.profileViewModel) var viewModel
@@ -74,15 +51,6 @@ struct ArticlesTabView: View {
       .frame(maxWidth: .infinity, maxHeight: .infinity)
       .background(Color(.systemGroupedBackground))
     }
-  }
-}
-
-private struct FeedDetailView: View {
-  var body: some View {
-    Text("Feed Detail")
-      .font(.title.bold())
-      .frame(maxWidth: .infinity, maxHeight: .infinity)
-      .background(Color(.systemGroupedBackground))
   }
 }
 

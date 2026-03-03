@@ -11,6 +11,7 @@ import os
 import Factory
 import Home
 import Core
+import Feed
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   
@@ -40,7 +41,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   
   private func registerModules() {
     moduleManager.registerModules([
-      HomeModule(launcher: self)
+      HomeModule(launcher: self),
+      FeedModule(launcher: self)
     ])
   }
   

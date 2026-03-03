@@ -25,7 +25,23 @@ final class ModuleManager: ModuleManaging {
   }
   
   func launch(to route: ModuleRoute) {
-    modulesLaunchable.first?.launch(moduleName: route.description)
+    let routeName = route.description.lowercased()
+    let launchable = modulesLaunchable.first { moduleIdentifier(for: $0) == routeName }
+    launchable?.launch(moduleName: route.description)
+  }
+  
+  private func moduleIdentifier(for launchable: Launchable) -> String {
+    var typeName = String(describing: type(of: launchable)).lowercased()
+
+    if let scopedTypeName = typeName.split(separator: ".").last {
+      typeName = String(scopedTypeName)
+    }
+
+    if typeName.hasSuffix("module") {
+      typeName.removeLast("module".count)
+    }
+
+    return typeName
   }
 
 }

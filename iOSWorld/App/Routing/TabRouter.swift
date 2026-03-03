@@ -46,11 +46,6 @@ final class TabRouter: TabRouting {
   }
   
   @MainActor
-  func makeFeedView() -> AnyView {
-    AnyView(FeedTabView())
-  }
-  
-  @MainActor
   func makeArticlesView() -> AnyView {
     AnyView(ArticlesTabView())
   }
