@@ -9,36 +9,26 @@ import Foundation
 import SwiftUI
 import Home
 
-protocol TabRouting: AnyObject, Launching {
-  func bindTabSelection(_ handler: @escaping (TabItem) -> Void)
+protocol TabRouting: AnyObject {
+  var launcher: Launching? { get set }
+  
+  func launch2(route: ModuleRoute)
+  
   @MainActor
   func makeHomeRoot(homeModuleBuilder: HomeModuleBuilding, moduleManager: ModuleManaging) -> AnyView
 }
 
 final class TabRouter: TabRouting {
-  private var tabSelectionHandler: ((TabItem) -> Void)?
-
-  func bindTabSelection(_ handler: @escaping (TabItem) -> Void) {
-    tabSelectionHandler = handler
+  private let moduleManager: ModuleManaging
+  
+  var launcher: Launching?
+  
+  init(moduleManager: ModuleManaging) {
+    self.moduleManager = moduleManager
   }
   
-  func launch(route: ModuleRoute) {
-    let tab: TabItem
-
-    switch route {
-    case .home:
-      tab = .home
-    case .feed:
-      tab = .feed
-    case .profile:
-      tab = .profile
-    case .articles:
-      tab = .articles
-    }
-
-    Task { @MainActor in
-      self.tabSelectionHandler?(tab)
-    }
+  func launch2(route: ModuleRoute) {
+    moduleManager.launch(to: route)
   }
 
   @MainActor
@@ -46,12 +36,27 @@ final class TabRouter: TabRouting {
     AnyView(
       NavigationStack {
         homeModuleBuilder.makeHomeView { intent in
-          moduleManager.handle(homeIntent: intent)
+          
         } profileDestination: {
           AnyView(EmptyView())
         }
       }
     )
+  }
+  
+  @MainActor
+  func makeFeedView() -> AnyView {
+    AnyView(FeedTabView())
+  }
+  
+  @MainActor
+  func makeArticlesView() -> AnyView {
+    AnyView(ArticlesTabView())
+  }
+  
+  @MainActor
+  func makeProfileView() -> AnyView {
+    AnyView(ProfileTabView())
   }
   
 }

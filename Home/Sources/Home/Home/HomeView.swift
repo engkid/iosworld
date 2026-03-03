@@ -9,6 +9,7 @@ import SwiftUI
 
 public struct HomeView: View {
   @StateObject private var viewModel: HomeViewModel
+  @State private var isHomeDetailPresented = false
 
   public init(viewModel: HomeViewModel) {
     _viewModel = StateObject(wrappedValue: viewModel)
@@ -21,34 +22,15 @@ public struct HomeView: View {
       Text(viewModel.subtitle)
         .font(.body)
         .foregroundStyle(.secondary)
-      NavigationLink("Go to Home Detail") {
-        HomeDetailView(viewModel: viewModel)
+      Button("Go to Home Detail") {
+        isHomeDetailPresented = true
       }
       .buttonStyle(.borderedProminent)
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .background(Color(.systemGroupedBackground))
-  }
-}
-
-private struct HomeDetailView: View {
-  let viewModel: HomeViewModel
-
-  var body: some View {
-    VStack(spacing: 16) {
-      Text("Home Detail")
-        .font(.title.bold())
-      Text("This detail page can request cross-module navigation.")
-        .font(.body)
-        .foregroundStyle(.secondary)
-        .multilineTextAlignment(.center)
-      Button("Open Profile Module") {
-        viewModel.openProfile()
-      }
-      .buttonStyle(.borderedProminent)
+    .navigationDestination(isPresented: $isHomeDetailPresented) {
+      HomeDetailView(viewModel: viewModel)
     }
-    .frame(maxWidth: .infinity, maxHeight: .infinity)
-    .padding(.horizontal, 24)
-    .background(Color(.systemGroupedBackground))
   }
 }

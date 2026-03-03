@@ -6,8 +6,9 @@
 //
 
 import SwiftUI
-import Home
 import Factory
+import Foundation
+import Home
 
 @MainActor
 struct MainTabView: View {
@@ -16,146 +17,89 @@ struct MainTabView: View {
   @Injected(\.homeCompositionRoot) var homeModuleBuilder
   @Injected(\.moduleManager) var moduleManager
   @Injected(\.tabRouter) var tabRouter
+  @State private var hiddenTabs: Set<String> = []
 
   var body: some View {
     ZStack(alignment: .bottom) {
-      ZStack {
-        tabContent(for: viewModel.selectedTab)
-      }
+      ZStack { tabContent }
       .animation(.spring(response: 0.4, dampingFraction: 0.85), value: viewModel.selectedTab)
 
-      iOSWorldTabView(viewModel: viewModel)
-        .padding(.bottom, 8)
+      if !isTabBarHidden {
+        iOSWorldTabView(viewModel: viewModel)
+          .padding(.bottom, 8)
+      }
     }
-    .onAppear {
-      tabRouter.bindTabSelection { tab in
-        viewModel.select(tab)
+    .onReceive(NotificationCenter.default.publisher(for: TabBarVisibilityNotification.name)) { notification in
+      guard
+        let tab = notification.userInfo?[TabBarVisibilityNotification.tabKey] as? String,
+        let isHidden = notification.userInfo?[TabBarVisibilityNotification.isHiddenKey] as? Bool
+      else {
+        return
       }
 
-      moduleManager.setLauncher(tabRouter)
+      if isHidden {
+        hiddenTabs.insert(tab)
+      } else {
+        hiddenTabs.remove(tab)
+      }
+    }
+    .onChange(of: viewModel.selectedTab) { _, selectedTab in
+      onTabSelected(selectedTab)
+    }
+    .onAppear {
+      
+      viewModel.configureItems(
+        homeModuleBuilder: homeModuleBuilder,
+        moduleManager: moduleManager,
+        tabRouter: tabRouter
+      )
+      
+    }
+  }
+
+  private var isTabBarHidden: Bool {
+    hiddenTabs.contains(selectedTabIdentifier)
+  }
+
+  private var selectedTabIdentifier: String {
+    switch viewModel.selectedTab {
+    case .home:
+      return "home"
+    case .feed:
+      return "feed"
+    case .articles:
+      return "articles"
+    case .profile:
+      return "profile"
     }
   }
 
   @ViewBuilder
-  private func tabContent(for tab: TabItem) -> some View {
-    tabRouter.makeHomeRoot(homeModuleBuilder: homeModuleBuilder, moduleManager: moduleManager)
-      .opacity(tab == .home ? 1 : 0)
-      .allowsHitTesting(tab == .home)
-    
-    FeedTabView()
-      .opacity(tab == .feed ? 1 : 0)
-      .allowsHitTesting(tab == .feed)
-    
-    ProfileView()
-      .opacity(tab == .profile ? 1 : 0)
-      .allowsHitTesting(tab == .profile)
-    
-    ArticlesTabView()
-      .opacity(tab == .articles ? 1 : 0)
-      .allowsHitTesting(tab == .articles)
-  }
-
-}
-
-// MARK: - move to Feed Module later
-private struct FeedTabView: View {
-  
-  @InjectedObject(\.feedViewModel) var viewModel
-
-  var body: some View {
-    NavigationStack {
-      VStack(spacing: 16) {
-        Text(viewModel.title)
-          .font(.largeTitle.weight(.bold))
-        Text(viewModel.subtitle)
-          .font(.body)
-          .foregroundStyle(.secondary)
-        NavigationLink("Go to Feed Detail") {
-          FeedDetailView()
-        }
-        .buttonStyle(.borderedProminent)
-      }
-      .frame(maxWidth: .infinity, maxHeight: .infinity)
-      .background(Color(.systemGroupedBackground))
+  private var tabContent: some View {
+    ForEach(viewModel.items) { item in
+      item.view
+        .opacity(item.tab == viewModel.selectedTab ? 1 : 0)
+        .allowsHitTesting(item.tab == viewModel.selectedTab)
     }
   }
-}
 
-// MARK: move to Profile Module later
-private struct ProfileView: View {
-  
-  @InjectedObject(\.profileViewModel) var viewModel
-
-  var body: some View {
-    NavigationStack {
-      VStack(spacing: 16) {
-        Text(viewModel.title)
-          .font(.largeTitle.weight(.bold))
-        Text(viewModel.subtitle)
-          .font(.body)
-          .foregroundStyle(.secondary)
-        NavigationLink("Go to Profile Detail") {
-          ProfileDetailView()
-        }
-        .buttonStyle(.borderedProminent)
-      }
-      .frame(maxWidth: .infinity, maxHeight: .infinity)
-      .background(Color(.systemGroupedBackground))
+  private func onTabSelected(_ tab: TabItem) {
+    switch tab {
+    case .feed:
+      tabRouter.launch2(route: .home)
+      return
+    default:
+      break
     }
-  }
-}
-
-// MARK: move to Articles Module later
-private struct ArticlesTabView: View {
-  
-  @InjectedObject(\.articlesViewModel) var viewModel
-
-  var body: some View {
-    NavigationStack {
-      VStack(spacing: 16) {
-        Text(viewModel.title)
-          .font(.largeTitle.weight(.bold))
-        Text(viewModel.subtitle)
-          .font(.body)
-          .foregroundStyle(.secondary)
-        NavigationLink("Go to Articles Detail") {
-          ArticlesDetailView()
-        }
-        .buttonStyle(.borderedProminent)
-      }
-      .frame(maxWidth: .infinity, maxHeight: .infinity)
-      .background(Color(.systemGroupedBackground))
-    }
-  }
-}
-
-private struct FeedDetailView: View {
-  var body: some View {
-    Text("Feed Detail")
-      .font(.title.bold())
-      .frame(maxWidth: .infinity, maxHeight: .infinity)
-      .background(Color(.systemGroupedBackground))
-  }
-}
-
-private struct ProfileDetailView: View {
-  var body: some View {
-    Text("Profile Detail")
-      .font(.title.bold())
-      .frame(maxWidth: .infinity, maxHeight: .infinity)
-      .background(Color(.systemGroupedBackground))
-  }
-}
-
-private struct ArticlesDetailView: View {
-  var body: some View {
-    Text("Articles Detail")
-      .font(.title.bold())
-      .frame(maxWidth: .infinity, maxHeight: .infinity)
-      .background(Color(.systemGroupedBackground))
   }
 }
 
 #Preview {
   MainTabView()
+}
+
+private enum TabBarVisibilityNotification {
+  static let name = Notification.Name("iOSWorld.TabBarVisibilityChanged")
+  static let tabKey = "tab"
+  static let isHiddenKey = "isHidden"
 }

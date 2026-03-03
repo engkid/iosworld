@@ -68,9 +68,10 @@ extension Container {
     }.scope(.singleton)
   }
   
+  @MainActor
   var tabRouter: Factory<TabRouting> {
     Factory(self) {
-      TabRouter()
+      TabRouter(moduleManager: self.moduleManager())
     }.singleton
   }
 }

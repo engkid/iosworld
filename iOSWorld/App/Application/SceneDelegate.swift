@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import os
 import Factory
+import Home
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   
@@ -23,6 +24,11 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     let window = UIWindow(windowScene: windowScene)
     
+    // TODO: make DI at app start (do it for later)
+    let tabRouter = Container.shared.tabRouter()
+    let moduleManager = Container.shared.moduleManager()
+    let homeCompositionRoot = Container.shared.homeCompositionRoot()
+    
     window.rootViewController = UIHostingController(rootView: MainTabView())
     
     window.makeKeyAndVisible()
@@ -30,14 +36,19 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     Self.logger.info("willConnectTo: SceneDelegate is being called. Launch options: \(String(describing: connectionOptions))")
   }
-
+  
   private func registerModules() {
     moduleManager.registerModules([
-      ModuleLaunchable(route: .home),
-      ModuleLaunchable(route: .feed),
-      ModuleLaunchable(route: .articles),
-      ModuleLaunchable(route: .profile)
+      HomeModule(launcher: self)
     ])
+  }
+  
+}
+
+extension SceneDelegate: Launching {
+  
+  func launch(route: ModuleRoute) {
+    Self.logger.info("launch: Launching module for route: \(String(describing: route))")
   }
   
 }
