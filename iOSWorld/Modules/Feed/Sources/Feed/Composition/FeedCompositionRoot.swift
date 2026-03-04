@@ -1,4 +1,5 @@
 import Foundation
+import Core
 
 public final class FeedCompositionRoot: FeedModuleBuilding {
   private let viewModelBuilder: () -> FeedViewModel
@@ -13,6 +14,6 @@ public final class FeedCompositionRoot: FeedModuleBuilding {
   }
 
   public func makeFeedView() -> FeedView {
-    FeedView(viewModel: viewModelBuilder())
+    FeedView(holder: WrapperHolder(), viewModel: viewModelBuilder())
   }
 }

@@ -1,10 +1,14 @@
 import SwiftUI
+import Core
 
-public struct FeedView: View {
+public struct FeedView: WrappedView {
   @StateObject private var viewModel: FeedViewModel
+  
+  public var holder: WrapperHolder
 
-  public init(viewModel: FeedViewModel) {
+  public init(holder: WrapperHolder, viewModel: FeedViewModel) {
     _viewModel = StateObject(wrappedValue: viewModel)
+    self.holder = holder
   }
 
   public var body: some View {
@@ -14,8 +18,11 @@ public struct FeedView: View {
       Text(viewModel.subtitle)
         .font(.body)
         .foregroundStyle(.secondary)
-      NavigationLink("Go to Feed Detail") {
-        FeedDetailView()
+      Button("Go to Feed Detail") {
+        let detailController = UIHostingController(rootView: FeedDetailView())
+        detailController.hidesBottomBarWhenPushed = true
+        detailController.title = "Feed Detail"
+        holder.viewController?.navigationController?.pushViewController(detailController, animated: true)
       }
       .buttonStyle(.borderedProminent)
     }

@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SwiftUI
 import Home
 import Feed
 import Core
@@ -18,11 +17,6 @@ protocol TabRouting: AnyObject {
   
   @MainActor
   func makeMainTabControllers() -> [UIViewController]
-  
-  @MainActor
-  func makeHomeRoot() -> AnyView
-  @MainActor
-  func makeFeedRoot() -> AnyView
 }
 
 final class TabRouter: TabRouting {
@@ -56,11 +50,8 @@ final class TabRouter: TabRouting {
       selectedImage: UIImage(systemName: TabItem.home.iconName)
     )
 
-    let feedRootController = UIHostingController(
-      rootView: NavigationStack {
-        feedModuleBuilder.makeFeedView()
-      }
-    )
+    let feedRootView = feedModuleBuilder.makeFeedView()
+    let feedRootController = feedRootView.viewController
     feedRootController.title = TabItem.feed.title
     let feedNavigationController = UINavigationController(rootViewController: feedRootController)
     feedNavigationController.tabBarItem = UITabBarItem(
@@ -71,19 +62,4 @@ final class TabRouter: TabRouting {
 
     return [homeNavigationController, feedNavigationController]
   }
-
-  @MainActor
-  func makeHomeRoot() -> AnyView {
-    AnyView(WrappedNavigationController(rootView: homeModuleBuilder.makeHomeView()))
-  }
-  
-  @MainActor
-  func makeFeedRoot() -> AnyView {
-    AnyView(
-      NavigationStack {
-        feedModuleBuilder.makeFeedView()
-      }
-    )
-  }
-  
 }
