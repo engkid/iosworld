@@ -31,7 +31,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     let moduleManager = Container.shared.moduleManager()
     let homeCompositionRoot = Container.shared.homeCompositionRoot()
     
-    window.rootViewController = UIHostingController(rootView: MainTabView())
+    let mainTabView: AnyView = moduleManager.initialView
+    
+    window.rootViewController = UIHostingController(rootView: mainTabView)
     
     window.makeKeyAndVisible()
     self.window = window

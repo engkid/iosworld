@@ -8,25 +8,35 @@
 import Foundation
 import Home
 import Core
+import SwiftUI
 
 protocol ModuleManaging: AnyObject {
+  var initialView: AnyView { get }
+  var moduleLaunchables: [Launchable] { get }
+  
   func launch(to route: ModuleRoute)
   func registerModules(_ modules: [Launchable])
 }
 
 final class ModuleManager: ModuleManaging {
   
-  private var modulesLaunchable: [Launchable] = []
+  private(set) var moduleLaunchables: [Launchable] = []
+  
+  var initialView: AnyView {
+    AnyView(
+      MainTabView()
+    )
+  }
 
   init() { }
   
   func registerModules(_ modules: [Launchable]) {
-    self.modulesLaunchable = modules
+    self.moduleLaunchables = modules
   }
   
   func launch(to route: ModuleRoute) {
     let routeName = route.description.lowercased()
-    let launchable = modulesLaunchable.first { moduleIdentifier(for: $0) == routeName }
+    let launchable = moduleLaunchables.first { moduleIdentifier(for: $0) == routeName }
     launchable?.launch(moduleName: route.description)
   }
   
