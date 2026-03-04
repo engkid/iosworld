@@ -1,0 +1,75 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+require "fileutils"
+
+default_platform(:ios)
+
+def truthy?(value)
+  %w[true].include?(value.to_s.downcase)
+end
+
+def archived_dsym_zip_path
+  project_root = File.expand_path("..", __dir__)
+  archived_dsym_dir = File.join(project_root, "archived_dsym")
+  FileUtils.mkdir_p(archived_dsym_dir)
+
+  timestamp = Time.now.strftime("%Y%m%d-%H%M%S")
+  File.join(archived_dsym_dir, "iOSWorld-#{timestamp}.app.dSYM.zip")
+end
+
+platform :ios do
+  desc "Run Unit Tests"
+  lane :test do
+    scan(
+      project: "iOSWorld.xcodeproj",
+      scheme: "iOSWorld",
+      only_testing: ["iOSWorldTests"],
+      destination: "platform=iOS Simulator,name=iPhone 16e,OS=26.2",
+      code_coverage: true,
+      derived_data_path: "/tmp/iOSWorldDerived",
+      clean: true,
+      force_quit_simulator: true,
+      reset_simulator: true,
+      disable_slide_to_type: false,
+      number_of_retries: 2
+    )
+  end
+
+  desc "Build the app"
+  lane :build_the_app do |options|
+
+    with_ipa = truthy?(options[:with_ipa])
+
+    build_app(
+      project: "iOSWorld.xcodeproj",
+      scheme: "iOSWorld",
+      clean: true,
+      sdk: "iphoneos",
+      skip_package_ipa: !with_ipa
+    )
+
+    output_path = archived_dsym_zip_path
+    dsym_zip(dsym_path: output_path)
+    UI.success("Archived dSYM: #{output_path}")
+  end
+
+  desc "Test and build the app without ipa"
+  lane :test_and_build_app do |options|
+    test
+    build_the_app(with_ipa: options[:with_ipa])
+  end
+
+end
