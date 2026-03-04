@@ -33,14 +33,19 @@ final class TabRouter: TabRouting {
   }
 
   @MainActor
-  func makeHomeRoot(homeModuleBuilder: HomeModuleBuilding) -> AnyView {
+  func makeHomeRoot() -> AnyView {
     AnyView(
       NavigationStack {
-        homeModuleBuilder.makeHomeView { intent in
-          
-        } profileDestination: {
-          AnyView(EmptyView())
-        }
+        homeModuleBuilder.makeHomeView()
+      }
+    )
+  }
+  
+  @MainActor
+  func makeFeedRoot() -> AnyView {
+    AnyView(
+      NavigationStack {
+        feedModuleBuilder.makeFeedView()
       }
     )
   }

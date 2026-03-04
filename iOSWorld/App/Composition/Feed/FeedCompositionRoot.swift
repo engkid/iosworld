@@ -28,8 +28,7 @@ final class FeedCompositionRoot: FeedModuleBuilding {
     self.container = container
   }
 
-  func makeFeedView(onIntent: @escaping (FeedIntent) -> Void) -> FeedView {
-    feedViewModel.setIntentHandler(onIntent)
+  func makeFeedView() -> FeedView {
     return FeedView(viewModel: feedViewModel)
   }
 }

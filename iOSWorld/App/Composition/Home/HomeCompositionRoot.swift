@@ -30,12 +30,7 @@ final class HomeCompositionRoot: HomeModuleBuilding {
     self.container = container
   }
 
-  func makeHomeView(
-    onIntent: @escaping (HomeIntent) -> Void,
-    profileDestination: @escaping () -> AnyView
-  ) -> HomeView {
-    homeViewModel.setIntentHandler(onIntent)
-    homeViewModel.setProfileDestinationBuilder(profileDestination)
+  func makeHomeView() -> HomeView {
     return HomeView(viewModel: homeViewModel)
   }
 }
@@ -50,13 +45,8 @@ final class HomeModuleBuilderFake: HomeModuleBuilding {
     self.viewModel = viewModel
   }
 
-  func makeHomeView(
-    onIntent: @escaping (HomeIntent) -> Void,
-    profileDestination: @escaping () -> AnyView
-  ) -> HomeView {
+  func makeHomeView() -> HomeView {
     makeHomeViewCallCount += 1
-    viewModel.setIntentHandler(onIntent)
-    viewModel.setProfileDestinationBuilder(profileDestination)
     return HomeView(viewModel: viewModel)
   }
 }
