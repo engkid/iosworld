@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  MainTabView.swift
 //  iOSWorld
 //
 //  Created by Engkit Riswara on 07/01/26.
@@ -7,69 +7,55 @@
 
 import SwiftUI
 import Factory
-import Foundation
+import UIKit
 import Core
 
 @MainActor
 struct MainTabView: View {
-  
-  @InjectedObject(\.tabBarViewModel) var viewModel
-  @Injected(\.tabRouter) var tabRouter
+  @Injected(\.tabRouter) private var tabRouter
 
   var body: some View {
-    ZStack(alignment: .bottom) {
-      ZStack { tabContent }
-      .animation(.spring(response: 0.4, dampingFraction: 0.85), value: viewModel.selectedTab)
-      
-      iOSWorldTabView(viewModel: viewModel)
-        .padding(.bottom, 8)
-    }
-    .onChange(of: viewModel.selectedTab) { _, selectedTab in
-      onTabSelected(selectedTab)
-    }
-    .onAppear {
-      viewModel.configureItems(tabRouter: tabRouter)
-    }
+    MainTabBarControllerView(tabRouter: tabRouter)
+      .ignoresSafeArea(.keyboard)
   }
-  
-  // MARK: ViewBuilder
-  @ViewBuilder
-  private var tabContent: some View {
-    ForEach(viewModel.items) { item in
-      item.view
-        .opacity(item.tab == viewModel.selectedTab ? 1 : 0)
-        .allowsHitTesting(item.tab == viewModel.selectedTab)
-    }
-  }
-  
-  // MARK: Private
-  private func onTabSelected(_ tab: TabItem) {
-    let route: ModuleRoute
+}
 
-    switch tab {
-    case .home:
-      route = .home
-    case .feed:
-      route = .feed
-    case .articles:
-      route = .articles
-    case .profile:
-      route = .profile
-    }
+private struct MainTabBarControllerView: UIViewControllerRepresentable {
+  let tabRouter: TabRouting
 
-    tabRouter.launch(route: route)
+  func makeCoordinator() -> Coordinator {
+    Coordinator(tabRouter: tabRouter)
   }
-  
-  private var selectedTabIdentifier: String {
-    switch viewModel.selectedTab {
-    case .home:
-      return "home"
-    case .feed:
-      return "feed"
-    case .articles:
-      return "articles"
-    case .profile:
-      return "profile"
+
+  func makeUIViewController(context: Context) -> UITabBarController {
+    let tabBarController = UITabBarController()
+    tabBarController.viewControllers = tabRouter.makeMainTabControllers()
+    tabBarController.delegate = context.coordinator
+    tabBarController.selectedIndex = 0
+    tabRouter.launch(route: .home)
+    return tabBarController
+  }
+
+  func updateUIViewController(_ uiViewController: UITabBarController, context: Context) {
+    // Keep UIKit tab and navigation state intact across SwiftUI updates.
+  }
+}
+
+private final class Coordinator: NSObject, UITabBarControllerDelegate {
+  private let tabRouter: TabRouting
+
+  init(tabRouter: TabRouting) {
+    self.tabRouter = tabRouter
+  }
+
+  func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+    switch tabBarController.selectedIndex {
+    case 0:
+      tabRouter.launch(route: .home)
+    case 1:
+      tabRouter.launch(route: .feed)
+    default:
+      break
     }
   }
 }

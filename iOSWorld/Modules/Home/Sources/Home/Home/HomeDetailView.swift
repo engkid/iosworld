@@ -31,27 +31,5 @@ public struct HomeDetailView: View {
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .padding(.horizontal, 24)
     .background(Color(.systemGroupedBackground))
-    .onAppear {
-      TabBarVisibilityNotification.post(tab: "home", isHidden: true)
-    }
-    .onDisappear {
-      TabBarVisibilityNotification.post(tab: "home", isHidden: false)
-    }
   }
 }
-
-private enum TabBarVisibilityNotification {
-  static let name = Notification.Name("iOSWorld.TabBarVisibilityChanged")
-  static let tabKey = "tab"
-  static let isHiddenKey = "isHidden"
-
-  static func post(tab: String, isHidden: Bool) {
-    NotificationCenter.default.post(
-      name: name,
-      object: nil,
-      userInfo: [tabKey: tab, isHiddenKey: isHidden]
-    )
-  }
-}
-
-

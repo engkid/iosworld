@@ -10,19 +10,19 @@ import SwiftUI
 import Home
 import Feed
 import Core
+import UIKit
 
 protocol TabRouting: AnyObject {
   
   func launch(route: ModuleRoute)
   
   @MainActor
+  func makeMainTabControllers() -> [UIViewController]
+  
+  @MainActor
   func makeHomeRoot() -> AnyView
   @MainActor
   func makeFeedRoot() -> AnyView
-  @MainActor
-  func makeArticlesView() -> AnyView
-  @MainActor
-  func makeProfileView() -> AnyView
 }
 
 final class TabRouter: TabRouting {
@@ -45,6 +45,34 @@ final class TabRouter: TabRouting {
   }
 
   @MainActor
+  func makeMainTabControllers() -> [UIViewController] {
+    let homeRootView = homeModuleBuilder.makeHomeView()
+    let homeRootController = homeRootView.viewController
+    homeRootController.title = TabItem.home.title
+    let homeNavigationController = UINavigationController(rootViewController: homeRootController)
+    homeNavigationController.tabBarItem = UITabBarItem(
+      title: TabItem.home.title,
+      image: UIImage(systemName: TabItem.home.iconName),
+      selectedImage: UIImage(systemName: TabItem.home.iconName)
+    )
+
+    let feedRootController = UIHostingController(
+      rootView: NavigationStack {
+        feedModuleBuilder.makeFeedView()
+      }
+    )
+    feedRootController.title = TabItem.feed.title
+    let feedNavigationController = UINavigationController(rootViewController: feedRootController)
+    feedNavigationController.tabBarItem = UITabBarItem(
+      title: TabItem.feed.title,
+      image: UIImage(systemName: TabItem.feed.iconName),
+      selectedImage: UIImage(systemName: TabItem.feed.iconName)
+    )
+
+    return [homeNavigationController, feedNavigationController]
+  }
+
+  @MainActor
   func makeHomeRoot() -> AnyView {
     AnyView(WrappedNavigationController(rootView: homeModuleBuilder.makeHomeView()))
   }
@@ -56,16 +84,6 @@ final class TabRouter: TabRouting {
         feedModuleBuilder.makeFeedView()
       }
     )
-  }
-  
-  @MainActor
-  func makeArticlesView() -> AnyView {
-    AnyView(ArticlesTabView())
-  }
-  
-  @MainActor
-  func makeProfileView() -> AnyView {
-    AnyView(ProfileTabView())
   }
   
 }

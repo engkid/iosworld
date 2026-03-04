@@ -60,13 +60,13 @@
 		42C607212F0DE5B70072945E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
-				files = (
-					426712F52F56A53300A6F493 /* Factory in Frameworks */,
-					426712FB2F56A60000A6F493 /* NetworkService in Frameworks */,
-					426712F12F56A52B00A6F493 /* Core in Frameworks */,
-					426712F32F56A52F00A6F493 /* Home in Frameworks */,
-					4267130A2F56A9A100A6F493 /* Feed in Frameworks */,
-				);
+			files = (
+				426712F52F56A53300A6F493 /* Factory in Frameworks */,
+				426712FB2F56A60000A6F493 /* NetworkService in Frameworks */,
+				426712F12F56A52B00A6F493 /* Core in Frameworks */,
+				426712F32F56A52F00A6F493 /* Home in Frameworks */,
+				4267130A2F56A9A100A6F493 /* Feed in Frameworks */,
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		42D2D6202F533E93007B16AE /* Frameworks */ = {
@@ -124,13 +124,13 @@
 				42C607262F0DE5B70072945E /* iOSWorld */,
 			);
 			name = iOSWorld;
-				packageProductDependencies = (
-					426712F02F56A52B00A6F493 /* Core */,
-					426712F22F56A52F00A6F493 /* Home */,
-					426712F42F56A53300A6F493 /* Factory */,
-					426712FA2F56A60000A6F493 /* NetworkService */,
-					426713092F56A9A100A6F493 /* Feed */,
-				);
+			packageProductDependencies = (
+				426712F02F56A52B00A6F493 /* Core */,
+				426712F22F56A52F00A6F493 /* Home */,
+				426712F42F56A53300A6F493 /* Factory */,
+				426712FA2F56A60000A6F493 /* NetworkService */,
+				426713092F56A9A100A6F493 /* Feed */,
+			);
 			productName = iOSWorld;
 			productReference = 42C607242F0DE5B70072945E /* iOSWorld.app */;
 			productType = "com.apple.product-type.application";

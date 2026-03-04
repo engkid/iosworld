@@ -38,7 +38,8 @@ final class HomeCompositionRoot: HomeModuleBuilding {
   }
 
   func makeHomeView() -> HomeView {
-    return HomeView(holder: Container.shared.holder(),viewModel: homeViewModel)
+    let holder = container.holder()
+    return HomeView(holder: holder, viewModel: homeViewModel)
   }
 }
 

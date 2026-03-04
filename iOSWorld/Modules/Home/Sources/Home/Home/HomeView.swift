@@ -27,6 +27,8 @@ public struct HomeView: WrappedView {
         .foregroundStyle(.secondary)
       Button("Go to Home Detail") {
         let detailController = UIHostingController(rootView: HomeDetailView(viewModel: viewModel))
+        detailController.hidesBottomBarWhenPushed = true
+        detailController.title = "Home Detail"
         holder.viewController?.navigationController?.pushViewController(detailController, animated: true)
       }
       .buttonStyle(.borderedProminent)
