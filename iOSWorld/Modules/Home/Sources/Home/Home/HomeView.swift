@@ -9,7 +9,6 @@ import SwiftUI
 
 public struct HomeView: View {
   @StateObject private var viewModel: HomeViewModel
-  @State private var isHomeDetailPresented = false
 
   public init(viewModel: HomeViewModel) {
     _viewModel = StateObject(wrappedValue: viewModel)
@@ -22,15 +21,12 @@ public struct HomeView: View {
       Text(viewModel.subtitle)
         .font(.body)
         .foregroundStyle(.secondary)
-      Button("Go to Home Detail") {
-        isHomeDetailPresented = true
+      NavigationLink("Go to Home Detail") {
+        HomeDetailView(viewModel: viewModel)
       }
       .buttonStyle(.borderedProminent)
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .background(Color(.systemGroupedBackground))
-    .navigationDestination(isPresented: $isHomeDetailPresented) {
-      HomeDetailView(viewModel: viewModel)
-    }
   }
 }

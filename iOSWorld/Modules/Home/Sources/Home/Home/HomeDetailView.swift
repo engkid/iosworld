@@ -24,7 +24,7 @@ public struct HomeDetailView: View {
         .foregroundStyle(.secondary)
         .multilineTextAlignment(.center)
       Button("Open Profile Module") {
-        viewModel.openProfile()
+        
       }
       .buttonStyle(.borderedProminent)
     }
