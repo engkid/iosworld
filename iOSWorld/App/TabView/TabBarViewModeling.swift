@@ -13,9 +13,5 @@ protocol TabBarViewModeling: ObservableObject {
   func select(_ tab: TabItem)
   func setItems(_ items: [TabModel])
   @MainActor
-  func configureItems(
-    homeModuleBuilder: HomeModuleBuilding,
-    feedModuleBuilder: FeedModuleBuilding,
-    tabRouter: TabRouting
-  )
+  func configureItems(tabRouter: TabRouting)
 }

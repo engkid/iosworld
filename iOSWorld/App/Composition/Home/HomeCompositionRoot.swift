@@ -1,6 +1,7 @@
 import SwiftUI
 import Factory
 import Home
+import Core
 
 extension Container {
 
@@ -12,6 +13,12 @@ extension Container {
         subtitle: "Welcome back! Explore updates and highlights."
       )
     }
+  }
+  
+  var holder: Factory<WrapperHolder> {
+    Factory(self) {
+      WrapperHolder()
+    }.scope(.unique)
   }
 
   var homeCompositionRoot: Factory<HomeModuleBuilding> {
@@ -31,7 +38,7 @@ final class HomeCompositionRoot: HomeModuleBuilding {
   }
 
   func makeHomeView() -> HomeView {
-    return HomeView(viewModel: homeViewModel)
+    return HomeView(holder: Container.shared.holder(),viewModel: homeViewModel)
   }
 }
 
@@ -47,7 +54,7 @@ final class HomeModuleBuilderFake: HomeModuleBuilding {
 
   func makeHomeView() -> HomeView {
     makeHomeViewCallCount += 1
-    return HomeView(viewModel: viewModel)
+    return HomeView(holder: Container.shared.holder(), viewModel: viewModel)
   }
 }
 #endif

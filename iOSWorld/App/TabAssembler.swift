@@ -2,6 +2,7 @@ import Foundation
 import Combine
 import Factory
 import Home
+import Feed
 
 final class ProfileViewModel: ObservableObject {
   let title: String
@@ -52,7 +53,11 @@ extension Container {
   @MainActor
   var tabRouter: Factory<TabRouting> {
     Factory(self) {
-      TabRouter(moduleManager: self.moduleManager())
+      TabRouter(
+        moduleManager: self.moduleManager(),
+        homeModuleBuilder: self.homeCompositionRoot(),
+        feedModuleBuilder: self.feedCompositionRoot()
+      )
     }.singleton
   }
 }

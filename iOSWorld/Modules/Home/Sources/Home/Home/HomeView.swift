@@ -6,12 +6,16 @@
 //
 
 import SwiftUI
+import Core
 
-public struct HomeView: View {
+public struct HomeView: WrappedView {
+  public var holder: WrapperHolder
+  
   @StateObject private var viewModel: HomeViewModel
 
-  public init(viewModel: HomeViewModel) {
+  public init(holder: WrapperHolder, viewModel: HomeViewModel) {
     _viewModel = StateObject(wrappedValue: viewModel)
+    self.holder = holder
   }
 
   public var body: some View {
@@ -21,8 +25,9 @@ public struct HomeView: View {
       Text(viewModel.subtitle)
         .font(.body)
         .foregroundStyle(.secondary)
-      NavigationLink("Go to Home Detail") {
-        HomeDetailView(viewModel: viewModel)
+      Button("Go to Home Detail") {
+        let detailController = UIHostingController(rootView: HomeDetailView(viewModel: viewModel))
+        holder.viewController?.navigationController?.pushViewController(detailController, animated: true)
       }
       .buttonStyle(.borderedProminent)
     }

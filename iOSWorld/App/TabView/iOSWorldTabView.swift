@@ -16,7 +16,7 @@ struct iOSWorldTabView<ViewModel: TabBarViewModeling>: View {
     GeometryReader { geometry in
       let tabCount = CGFloat(max(TabItem.allCases.count, 1))
       let availableWidth = geometry.size.width.isFinite ? geometry.size.width : 0
-      let itemWidth = max((availableWidth / tabCount) - 32, 0)
+      let itemWidth = max((availableWidth / tabCount) - 20, 0)
 
       VStack {
         Spacer()

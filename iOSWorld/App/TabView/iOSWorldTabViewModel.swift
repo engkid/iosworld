@@ -44,50 +44,32 @@ final class iOSWorldTabViewModel: TabBarViewModeling {
   }
 
   @MainActor
-  func configureItems(
-    homeModuleBuilder: HomeModuleBuilding,
-    feedModuleBuilder: FeedModuleBuilding,
-    tabRouter: TabRouting
-  ) {
-    setItems(
-      makeTabItems(
-        homeModuleBuilder: homeModuleBuilder,
-        feedModuleBuilder: feedModuleBuilder,
-        tabRouter: tabRouter
-      )
-    )
+  func configureItems(tabRouter: TabRouting) {
+    setItems(makeTabItems(tabRouter: tabRouter))
   }
-
+    
   @MainActor
-  private func makeTabItems(
-    homeModuleBuilder: HomeModuleBuilding,
-    feedModuleBuilder: FeedModuleBuilding,
-    tabRouter: TabRouting
-  ) -> [TabModel] {
+  private func makeTabItems(tabRouter: TabRouting) -> [TabModel] {
     [
       TabModel(
         tab: .home,
         isSelected: selectedTab == .home,
-        view: tabRouter.makeHomeRoot(homeModuleBuilder: homeModuleBuilder)
+        view: tabRouter.makeHomeRoot()
       ),
       TabModel(
         tab: .feed,
         isSelected: selectedTab == .feed,
-        view: AnyView(
-          NavigationStack {
-            feedModuleBuilder.makeFeedView { _ in }
-          }
-        )
+        view: tabRouter.makeFeedRoot()
       ),
       TabModel(
         tab: .articles,
         isSelected: selectedTab == .articles,
-        view: AnyView(ArticlesTabView())
+        view: tabRouter.makeArticlesView()
       ),
       TabModel(
         tab: .profile,
         isSelected: selectedTab == .profile,
-        view: AnyView(ProfileTabView())
+        view: tabRouter.makeProfileView()
       )
     ]
   }

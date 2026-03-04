@@ -8,24 +8,36 @@
 import Foundation
 import SwiftUI
 import Home
+import Feed
 import Core
 
 protocol TabRouting: AnyObject {
-  var launcher: Launching? { get set }
   
   func launch(route: ModuleRoute)
   
   @MainActor
-  func makeHomeRoot(homeModuleBuilder: HomeModuleBuilding) -> AnyView
+  func makeHomeRoot() -> AnyView
+  @MainActor
+  func makeFeedRoot() -> AnyView
+  @MainActor
+  func makeArticlesView() -> AnyView
+  @MainActor
+  func makeProfileView() -> AnyView
 }
 
 final class TabRouter: TabRouting {
   private let moduleManager: ModuleManaging
+  private let homeModuleBuilder: HomeModuleBuilding
+  private let feedModuleBuilder: FeedModuleBuilding
   
-  var launcher: Launching?
-  
-  init(moduleManager: ModuleManaging) {
+  init(
+    moduleManager: ModuleManaging,
+    homeModuleBuilder: HomeModuleBuilding,
+    feedModuleBuilder: FeedModuleBuilding
+  ) {
     self.moduleManager = moduleManager
+    self.homeModuleBuilder = homeModuleBuilder
+    self.feedModuleBuilder = feedModuleBuilder
   }
   
   func launch(route: ModuleRoute) {
@@ -34,11 +46,7 @@ final class TabRouter: TabRouting {
 
   @MainActor
   func makeHomeRoot() -> AnyView {
-    AnyView(
-      NavigationStack {
-        homeModuleBuilder.makeHomeView()
-      }
-    )
+    AnyView(WrappedNavigationController(rootView: homeModuleBuilder.makeHomeView()))
   }
   
   @MainActor

@@ -8,15 +8,12 @@
 import SwiftUI
 import Factory
 import Foundation
-import Home
 import Core
 
 @MainActor
 struct MainTabView: View {
   
   @InjectedObject(\.tabBarViewModel) var viewModel
-  @Injected(\.homeCompositionRoot) var homeModuleBuilder
-  @Injected(\.feedCompositionRoot) var feedModuleBuilder
   @Injected(\.tabRouter) var tabRouter
 
   var body: some View {
@@ -31,29 +28,11 @@ struct MainTabView: View {
       onTabSelected(selectedTab)
     }
     .onAppear {
-      
-      viewModel.configureItems(
-        homeModuleBuilder: homeModuleBuilder,
-        feedModuleBuilder: feedModuleBuilder,
-        tabRouter: tabRouter
-      )
-      
+      viewModel.configureItems(tabRouter: tabRouter)
     }
   }
   
-  private var selectedTabIdentifier: String {
-    switch viewModel.selectedTab {
-    case .home:
-      return "home"
-    case .feed:
-      return "feed"
-    case .articles:
-      return "articles"
-    case .profile:
-      return "profile"
-    }
-  }
-
+  // MARK: ViewBuilder
   @ViewBuilder
   private var tabContent: some View {
     ForEach(viewModel.items) { item in
@@ -62,7 +41,8 @@ struct MainTabView: View {
         .allowsHitTesting(item.tab == viewModel.selectedTab)
     }
   }
-
+  
+  // MARK: Private
   private func onTabSelected(_ tab: TabItem) {
     let route: ModuleRoute
 
@@ -78,6 +58,19 @@ struct MainTabView: View {
     }
 
     tabRouter.launch(route: route)
+  }
+  
+  private var selectedTabIdentifier: String {
+    switch viewModel.selectedTab {
+    case .home:
+      return "home"
+    case .feed:
+      return "feed"
+    case .articles:
+      return "articles"
+    case .profile:
+      return "profile"
+    }
   }
 }
 
