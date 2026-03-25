@@ -49,10 +49,13 @@ private final class Coordinator: NSObject, UITabBarControllerDelegate {
   }
 
   func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
-    switch tabBarController.selectedIndex {
-    case 0:
+    
+    let items = TabItem(rawValue: tabBarController.selectedIndex)
+    
+    switch items {
+    case .home:
       tabRouter.launch(route: .home)
-    case 1:
+    case .feed:
       tabRouter.launch(route: .feed)
     default:
       break

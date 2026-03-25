@@ -7,8 +7,8 @@
 
 import Foundation
 
-enum TabItem: CaseIterable {
-  case home
+enum TabItem: Int, CaseIterable {
+  case home = 0
   case feed
   case articles
   case profile
