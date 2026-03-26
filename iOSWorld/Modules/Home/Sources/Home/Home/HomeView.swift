@@ -10,11 +10,13 @@ import Core
 
 public struct HomeView: WrappedView {
   public var holder: WrapperHolder
+  public var navigator: HomeNavigator
   
   @StateObject private var viewModel: HomeViewModel
 
-  public init(holder: WrapperHolder, viewModel: HomeViewModel) {
+  public init(holder: WrapperHolder, viewModel: HomeViewModel, navigator: HomeNavigator) {
     _viewModel = StateObject(wrappedValue: viewModel)
+    self.navigator = navigator
     self.holder = holder
   }
 
@@ -26,10 +28,8 @@ public struct HomeView: WrappedView {
         .font(.body)
         .foregroundStyle(.secondary)
       Button("Go to Home Detail") {
-        let detailController = UIHostingController(rootView: HomeDetailView(viewModel: viewModel))
-        detailController.hidesBottomBarWhenPushed = true
-        detailController.title = "Home Detail"
-        holder.viewController?.navigationController?.pushViewController(detailController, animated: true)
+        guard let viewController = holder.viewController else { return }
+        navigator.navigate(from: viewController, to: .homeDetail(viewModel))
       }
       .buttonStyle(.borderedProminent)
     }
@@ -37,3 +37,5 @@ public struct HomeView: WrappedView {
     .background(Color(.systemGroupedBackground))
   }
 }
+
+

@@ -14,6 +14,6 @@ public final class HomeCompositionRoot: HomeModuleBuilding {
   }
 
   public func makeHomeView() -> HomeView {
-    HomeView(holder: WrapperHolder(), viewModel: viewModelBuilder())
+    HomeView(holder: WrapperHolder(), viewModel: viewModelBuilder(), navigator: HomeNavigator())
   }
 }
